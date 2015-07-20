@@ -59,3 +59,6 @@ target/
 # PyCharm stuff
 *.iml
 .idea/
+
+# Test file
+test.py
