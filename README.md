@@ -56,6 +56,7 @@ print(track[0].artist_name + ': ' + track[0].track_name) # Get info from the fir
 ```
 
 You can also perform a lookup:
+
 ```python
 import itunespy
 
@@ -63,6 +64,25 @@ lookup = itunespy.lookup(upc=720642462928) # Lookup for the Weezer's album 'Weez
 
 for item in lookup:
     print(item.artist_name + ': ' + item.album_name)
+```
+
+Since the lookups returns a list of various objects, you can check its type like this:
+
+```python
+import itunespy
+from itunespy import artist
+from itunespy import album
+from itunespy import track
+
+lookup = itunespy.lookup(id=3024622, entity='album') # Lookup of all Biffy Clyro's albums
+
+for item in lookup:
+    if type(item) is artist.Artist:
+        print('Artist: ' + item.artist_name) # The item is an artist
+    elif type(item) is album.Album:
+        print('Album: ' + item.album_name) # The item is an album
+    elif type(item) is track.Track:
+        print('Track: ' + item.track_name) # The item is a track
 ```
 
 Each request has some parameters that you need to know. Searches has these:
