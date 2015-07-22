@@ -12,6 +12,8 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import itunespy
+
 class Artist:
     def __init__(self, json):
         if 'artistName' in json:
@@ -48,6 +50,9 @@ class Artist:
             self.artist_radio_url = json['radioStationUrl']
         else:
             self.artist_radio_url = None
+
+    def get_albums(self):
+        return itunespy.lookup(id=self.artist_id, entity='album')[1:]
 
     # For debugging purposes
     def print_info(self):

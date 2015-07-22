@@ -12,6 +12,8 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import itunespy
+
 class Album:
     def __init__(self, json):
         if 'artistId' in json:
@@ -108,6 +110,9 @@ class Album:
             self.genre = json['primaryGenreName']
         else:
             self.genre = None
+
+    def get_tracks(self):
+        return itunespy.lookup(id=self.album_id, entity='song')[1:]
 
     # For debugging purposes
     def print_info(self):

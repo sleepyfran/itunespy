@@ -18,9 +18,13 @@ from itunespy import album
 from itunespy import track
 
 '''
-    This is a simple API made in my free time. It's not perfect, but it works well.
+    This is a simple module made in my free time. It's not perfect, but it works well.
     I'm accepting any pull request to improve it, just follow the code style.
     For examples and documentation, take a look at the README.md
+
+    IMPORTANT: So far the wrapper is made ONLY for music and can only retrieve music content.
+               Anyway, you can always just fetch the JSON data from the general methods for other content.
+               I'm planning on adding support for other content soon.
 '''
 
 # --------
@@ -28,33 +32,33 @@ from itunespy import track
 # --------
 
 '''
-    Term: The URL-encoded text string you want to search for. Example: Steven Wilson.
+    term: The URL-encoded text string you want to search for. Example: Steven Wilson.
            The function will take care of spaces so you don't have to.
-    Country: The two-letter country code for the store you want to search.
+    country: The two-letter country code for the store you want to search.
               For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
-    Media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
-    Entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
+    media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
+    entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
              Full list: musicArtist, musicTrack, album, musicVideo, mix, song
-    Attribute: The attribute you want to search for in the stores, relative to the specified media type.
-    Limit: The number of search results you want the iTunes Store to return.
+    attribute: The attribute you want to search for in the stores, relative to the specified media type.
+    limit: The number of search results you want the iTunes Store to return.
 '''
 
 # Defines a general search. Returns the JSON data of the specified arguments
 def search(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
-    search_url = _url_builder(term, country, media, entity, attribute, limit)
+    search_url = _url_search_builder(term, country, media, entity, attribute, limit)
     r = requests.get(search_url)
 
     try:
         return r.json()['results'], r.json()['resultCount']
     except:
-        return None, None
+        raise ConnectionError('Cannot fetch JSON data.')
 
 # Defines an artist search. Returns a list of Artist instances. If there is no result, it'll raise a LookupError
 def search_artist(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
     json, result_count = search(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
-        raise LookupError('No artists found with the keyword ' + str(term))
+        raise LookupError(artist_search_error + str(term))
 
     artist_list = []
 
@@ -69,7 +73,7 @@ def search_album(term, country='US', media='music', entity='album', attribute=No
     json, result_count = search(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
-        raise LookupError('No albums found with the keyword ' + str(term))
+        raise LookupError(album_search_error + str(term))
 
     album_list = []
 
@@ -84,7 +88,7 @@ def search_track(term, country='US', media='music', entity='musicTrack', attribu
     json, result_count = search(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
-        raise LookupError('No tracks found with the keyword ' + str(term))
+        raise LookupError(track_search_error + str(term))
 
     track_list = []
 
@@ -98,11 +102,60 @@ def search_track(term, country='US', media='music', entity='musicTrack', attribu
 # Lookups
 # --------
 
+'''
+    - Note: You MUST provide at least one of these three id's
+    id: iTunes ID of the artist/album/track
+    artist_amg_id: All Music Guide ID of the artist
+    upc: UPCs/EANs
+    ---------------------------------------------------------------------------------------------------------------
+    country: The two-letter country code for the store you want to search.
+              For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+    media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
+    entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
+             Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+    attribute: The attribute you want to search for in the stores, relative to the specified media type.
+    limit: The number of search results you want the iTunes Store to return.
+'''
+
+# Defines a general lookup. Returns the JSON data of the specified arguments
+def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
+    # If none of the basic lookup arguments are provided, raise a ValueError
+    if id is None and artist_amg_id is None and upc is None:
+        raise ValueError('No id, amg id or upc arguments provided')
+
+    lookup_url = _url_lookup_builder(id, artist_amg_id, upc, country, media, entity, attribute, limit)
+
+    r = requests.get(lookup_url)
+
+    try:
+        json = r.json()['results']
+        result_count = r.json()['resultCount']
+    except:
+        raise ConnectionError('Cannot fetch JSON data.')
+
+    if result_count == 0:
+        raise LookupError(lookup_error)
+
+    result_list = []
+
+    for item in json:
+        if item['wrapperType'] == 'artist':
+            artist_result = artist.Artist(item)
+            result_list.append(artist_result)
+        elif item['wrapperType'] == 'collection':
+            album_result = album.Album(item)
+            result_list.append(album_result)
+        elif item['wrapperType'] == 'track':
+            track_result = track.Track(item)
+            result_list.append(track_result)
+
+    return result_list
 
 # --------
 # Parameters
 # --------
-base_url = 'https://itunes.apple.com/search?term='
+base_search_url = 'https://itunes.apple.com/search?term='
+base_lookup_url = 'https://itunes.apple.com/lookup?'
 ampersand = '&'
 parameters = {
     0: 'term=',
@@ -110,17 +163,58 @@ parameters = {
     2: 'media=',
     3: 'entity=',
     4: 'attribute=',
-    5: 'limit='
+    5: 'limit=',
+    6: 'id=',
+    7: 'amgArtistId=',
+    8: 'upc='
 }
+artist_search_error = 'No artists found with the keyword '
+album_search_error = 'No albums found with the keyword '
+track_search_error = 'No tracks found with the keyword '
+lookup_error = 'No results with the given parameters'
 
 # --------
 # Private
 # --------
-def _url_builder(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
-    built_url = base_url + _parse_query(term)
+def _url_search_builder(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
+    built_url = base_search_url + _parse_query(term)
     built_url += ampersand + parameters[1] + country
     built_url += ampersand + parameters[2] + media
     built_url += ampersand + parameters[3] + entity
+
+    if attribute is not None:
+        built_url += ampersand + parameters[4] + attribute
+
+    built_url += ampersand + parameters[5] + str(limit)
+
+    return built_url
+
+def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
+    built_url = base_lookup_url
+    has_one_argument = False
+
+    if id is not None:
+        built_url += parameters[6] + str(id)
+        has_one_argument = True
+
+    if artist_amg_id is not None:
+        if has_one_argument:
+            built_url += ampersand + parameters[7] + artist_amg_id
+        else:
+            built_url += parameters[7] + str(artist_amg_id)
+            has_one_argument = True
+
+    if upc is not None:
+        if has_one_argument:
+            built_url += ampersand + parameters[8] + upc
+        else:
+            built_url += parameters[8] + str(upc)
+
+    built_url += ampersand + parameters[1] + country
+    built_url += ampersand + parameters[2] + media
+
+    if entity is not None:
+        built_url += ampersand + parameters[3] + entity
 
     if attribute is not None:
         built_url += ampersand + parameters[4] + attribute
