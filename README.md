@@ -14,3 +14,31 @@ And then enter the cloned repo and execute:
     python setup.py install
 
 I'll add the package to pip once it reaches the final release.
+
+## Examples
+Search an artist and show all its album's names:
+
+```python
+import itunespy
+
+artist = itunespy.search_artist('Steven Wilson')
+albums = artist[0].get_albums()
+
+for album in albums:
+    print(album.album_name)
+```
+
+Or search an album and show all its song's names:
+
+```python
+import itunespy
+
+album = itunespy.search_album('One Hour By The Concrete Lake')[0]
+tracks = album.get_tracks()
+
+for track in tracks:
+    print(track.artist_name + ': ' + track.track_name)
+```
+
+## Documentation
+Coming soon.
