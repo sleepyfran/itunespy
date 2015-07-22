@@ -51,7 +51,7 @@ def search(term, country='US', media='music', entity='musicArtist', attribute=No
     try:
         return r.json()['results'], r.json()['resultCount']
     except:
-        raise ConnectionError('Cannot fetch JSON data.')
+        raise ConnectionError(general_no_connection)
 
 # Defines an artist search. Returns a list of Artist instances. If there is no result, it'll raise a LookupError
 def search_artist(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
@@ -121,7 +121,7 @@ def search_track(term, country='US', media='music', entity='musicTrack', attribu
 def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
     # If none of the basic lookup arguments are provided, raise a ValueError
     if id is None and artist_amg_id is None and upc is None:
-        raise ValueError('No id, amg id or upc arguments provided')
+        raise ValueError(lookup_no_ids)
 
     lookup_url = _url_lookup_builder(id, artist_amg_id, upc, country, media, entity, attribute, limit)
 
@@ -131,7 +131,7 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
         json = r.json()['results']
         result_count = r.json()['resultCount']
     except:
-        raise ConnectionError('Cannot fetch JSON data.')
+        raise ConnectionError(general_no_connection)
 
     if result_count == 0:
         raise LookupError(lookup_error)
@@ -168,10 +168,12 @@ parameters = {
     7: 'amgArtistId=',
     8: 'upc='
 }
+general_no_connection = 'Cannot fetch JSON data'
 artist_search_error = 'No artists found with the keyword '
 album_search_error = 'No albums found with the keyword '
 track_search_error = 'No tracks found with the keyword '
 lookup_error = 'No results with the given parameters'
+lookup_no_ids = 'No id, amg id or upc arguments provided'
 
 # --------
 # Private
