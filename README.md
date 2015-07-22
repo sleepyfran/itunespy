@@ -83,3 +83,5 @@ For lookups, the same parameters apply except for *term*, that changes to a coup
 Every search and lookup will **always** return a list of artists, albums or tracks instances. Each object has their own variables, following the iTune's API names adapted to Python syntax.
 
 To take a look at all of this simply go to the [artist](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/artist.py), [album](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/album.py) or the [track](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/track.py) classes.
+
+**Note**: The iTunes API defines albums like collections, but I didnt' like that name, so everytime you want to refer to a collection it'll album in every object.
