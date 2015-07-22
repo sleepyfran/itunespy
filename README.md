@@ -1,3 +1,5 @@
+**Note**: This branch is for adding more content to searches and lookups
+
 # itunespy
 
 itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X. 

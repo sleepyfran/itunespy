@@ -117,7 +117,7 @@ def search_track(term, country='US', media='music', entity='musicTrack', attribu
     limit: The number of search results you want the iTunes Store to return.
 '''
 
-# Defines a general lookup. Returns the JSON data of the specified arguments
+# Defines a general lookup. Returns the a list with the artists, albums or tracks
 def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
     # If none of the basic lookup arguments are provided, raise a ValueError
     if id is None and artist_amg_id is None and upc is None:
