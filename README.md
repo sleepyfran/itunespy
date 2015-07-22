@@ -4,6 +4,8 @@ itunespy is a simple library to fetch data from the iTunes Store API made for Py
 
 **This project is a work in progress**
 
+**Important**: So far the wrapper is made ONLY for music and can only retrieve music content. Anyway, you can always just fetch the JSON data from the general methods for other content.**I'm planning on adding support for other content soon.**
+
 ## Installing
 In order to install the module simply clone this project anywhere in your computer:
 
