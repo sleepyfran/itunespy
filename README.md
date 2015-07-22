@@ -21,8 +21,8 @@ Search an artist and show all its album's names:
 ```python
 import itunespy
 
-artist = itunespy.search_artist('Steven Wilson')
-albums = artist[0].get_albums()
+artist = itunespy.search_artist('Steven Wilson') # Returns a list
+albums = artist[0].get_albums() # Get albums from the first result
 
 for album in albums:
     print(album.album_name)
@@ -33,8 +33,8 @@ Or search an album and show all its song's names:
 ```python
 import itunespy
 
-album = itunespy.search_album('One Hour By The Concrete Lake')[0]
-tracks = album.get_tracks()
+album = itunespy.search_album('One Hour By The Concrete Lake') # Returns a list
+tracks = album[0].get_tracks() # Get tracks from the first result
 
 for track in tracks:
     print(track.artist_name + ': ' + track.track_name)
