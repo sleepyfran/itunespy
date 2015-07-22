@@ -15,6 +15,10 @@ And then enter the cloned repo and execute:
 
 I'll add the package to pip once it reaches the final release.
 
+## Dependencies
+
+itunespy requires [Requests](https://github.com/kennethreitz/requests) istalled.
+
 ## Examples and information
 Search an artist and show all its album's names:
 
@@ -85,3 +89,6 @@ Every search and lookup will **always** return a list of artists, albums or trac
 To take a look at all of this simply go to the [artist](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/artist.py), [album](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/album.py) or the [track](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/track.py) classes.
 
 **Note**: The iTunes API defines albums like collections, but I didnt' like that name, so everytime you want to refer to a collection it'll album in every object.
+
+## Contributing
+I'm accepting any pull request to improve or fix anything in the library, just fork the project and hack it!
