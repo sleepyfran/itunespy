@@ -72,6 +72,7 @@ Each request has some parameters that you need to know. Searches has these:
     limit: The number of search results you want the iTunes Store to return.
     
 **Note**: Only the *term* is obligatory, the other ones have default values that will be used in case you don't provide any.
+**Note 2**: In specific searches, like search_artist or search_album, don't change entity, since it's configure inside the function to retrieve an specific entity.
 
 For lookups, the same parameters apply except for *term*, that changes to a couple of id fields:
     
