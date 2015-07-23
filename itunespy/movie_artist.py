@@ -20,15 +20,8 @@ class MovieArtist(result_item.ResultItem):
         result_item.ResultItem.__init__(self, json)
 
     def get_movies(self):
-        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['movie'])
+        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['movie'])[1:]
 
-    # For debugging purposes
+    # Only for debugging purposes
     def print_info(self):
-        print(self.artist_name)
-        print(self.artist_link_url)
-        print(self.artist_id)
-        print(self.artist_amg_id)
-        print(self.artist_genre_name)
-        print(self.artist_genre_id)
-        print(self.artist_link_url)
-        print()
+        result_item.ResultItem.print_info(self)

@@ -12,20 +12,12 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
-import itunespy
 from itunespy import result_item
 
-class MovieArtist(result_item.ResultItem):
+class Movie(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
 
-    # For debugging purposes
+    # Only for debugging purposes
     def print_info(self):
-        print(self.artist_name)
-        print(self.artist_link_url)
-        print(self.artist_id)
-        print(self.artist_amg_id)
-        print(self.artist_genre_name)
-        print(self.artist_genre_id)
-        print(self.artist_link_url)
-        print()
+        result_item.ResultItem.print_info(self)

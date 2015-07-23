@@ -15,10 +15,14 @@
 class ResultItem(object):
     def __init__(self, json):
         self.artist_name = json['artistName']
-        self.artist_link_url = json['artistLinkUrl']
         self.artist_id = json['artistId']
         self.artist_genre_name = json['primaryGenreName']
-        self.artist_radio_url = json['radioStationUrl']
+
+        if 'artistLinkUrl' in json:
+            self.artist_link_url = json['artistLinkUrl']
+
+        if 'radioStationUrl' in json:
+            self.artist_radio_url = json['radioStationUrl']
 
         if 'primaryGenreId' in json:
             self.artist_genre_id = json['primaryGenreId']
@@ -58,6 +62,9 @@ class ResultItem(object):
 
         if 'collectionName' in json:
             self.collection_name = json['collectionName']
+
+        if 'collectionId' in json:
+            self.collection_id = json['collectionId']
 
         if 'collectionCensoredName' in json:
             self.collection_censored_name = json['collectionCensoredName']
@@ -115,3 +122,9 @@ class ResultItem(object):
 
         if 'isStreamable' in json:
             self.is_streamable = json['isStreamable']
+
+    # Only for debugging purposes
+    def print_info(self):
+        for key, value in self.__dict__.items():
+            if not key.startswith('__'):
+                print(key + ': ' + str(value))
