@@ -13,43 +13,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
 import itunespy
+from itunespy import result_item
 
-class Artist:
+class MusicArtist(result_item.ResultItem):
     def __init__(self, json):
-        if 'artistName' in json:
-            self.artist_name = json['artistName']
-        else:
-            self.artist_name = None
-
-        if 'artistLinkUrl' in json:
-            self.artist_link_url = json['artistLinkUrl']
-        else:
-            self.artist_link_url = None
-
-        if 'artistId' in json:
-            self.artist_id = json['artistId']
-        else:
-            self.artist_id = None
-
-        if 'amgArtistId' in json:
-            self.artist_amg_id = json['amgArtistId']
-        else:
-            self.artist_amg_id = None
-
-        if 'primaryGenreName' in json:
-            self.artist_genre_name = json['primaryGenreName']
-        else:
-            self.artist_genre_name = None
-
-        if 'primaryGenreId' in json:
-            self.artist_genre_id = json['primaryGenreId']
-        else:
-            self.artist_genre_id = None
-
-        if 'radioStationUrl' in json:
-            self.artist_radio_url = json['radioStationUrl']
-        else:
-            self.artist_radio_url = None
+        result_item.ResultItem.__init__(self, json)
 
     def get_albums(self):
         return itunespy.lookup(id=self.artist_id, entity='album')[1:]

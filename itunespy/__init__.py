@@ -13,9 +13,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
 import requests
-from itunespy import artist
-from itunespy import album
-from itunespy import track
+from itunespy import music_artist
+from itunespy import music_album
+from itunespy import music_track
 
 '''
     This is a simple module made in my free time. It's not perfect, but it works well.
@@ -63,7 +63,7 @@ def search_artist(term, country='US', media='music', entity='musicArtist', attri
     artist_list = []
 
     for item in json:
-        artist_result = artist.Artist(item)
+        artist_result = music_artist.MusicArtist(item)
         artist_list.append(artist_result)
 
     return artist_list
@@ -78,7 +78,7 @@ def search_album(term, country='US', media='music', entity='album', attribute=No
     album_list = []
 
     for item in json:
-        album_result = album.Album(item)
+        album_result = music_album.MusicAlbum(item)
         album_list.append(album_result)
 
     return album_list
@@ -93,7 +93,7 @@ def search_track(term, country='US', media='music', entity='musicTrack', attribu
     track_list = []
 
     for item in json:
-        track_result = track.Track(item)
+        track_result = music_track.MusicTrack(item)
         track_list.append(track_result)
 
     return track_list
@@ -139,14 +139,14 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
     result_list = []
 
     for item in json:
-        if item['wrapperType'] == 'artist':
-            artist_result = artist.Artist(item)
+        if item['wrapperType'] == 'artist' and item['artistType'] == 'Artist':
+            artist_result = music_artist.MusicArtist(item)
             result_list.append(artist_result)
-        elif item['wrapperType'] == 'collection':
-            album_result = album.Album(item)
+        elif item['wrapperType'] == 'collection' and item['collectionType'] == 'Album':
+            album_result = music_album.MusicAlbum(item)
             result_list.append(album_result)
-        elif item['wrapperType'] == 'track':
-            track_result = track.Track(item)
+        elif item['wrapperType'] == 'track' and item['kind'] == 'song':
+            track_result = music_track.MusicTrack(item)
             result_list.append(track_result)
 
     return result_list
