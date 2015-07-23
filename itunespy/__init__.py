@@ -157,6 +157,32 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
 base_search_url = 'https://itunes.apple.com/search?term='
 base_lookup_url = 'https://itunes.apple.com/lookup?'
 ampersand = '&'
+entities = {
+    'movieArtist': 'movieArtist',
+    'movie': 'movie',
+    'podcastAuthor': 'podcastAuthor',
+    'podcast': 'podcast',
+    'musicArtist': 'musicArtist',
+    'muscTrack': 'musicTrack',
+    'album': 'album',
+    'musicVideo': 'musicVideo',
+    'mix': 'mix',
+    'song': 'song',
+    'audiobookAuthor': 'audiobookAuthor',
+    'audiobook': 'audiobook',
+    'shortFilmArtist': 'shortFilmArtist',
+    'shortFilm': 'shortFilm',
+    'tvEpisode': 'tvEpisode',
+    'tvSeason': 'tvSeason',
+    'software': 'software',
+    'iPadSoftware': 'iPadSoftware',
+    'macSoftware': 'macSoftware',
+    'ebook': 'ebook',
+    'ebookAuthor': 'ebookAuthor',
+    'all' : 'all',
+    'allArtist': 'allArtist',
+    'allTrack': 'allTrack'
+}
 parameters = {
     0: 'term=',
     1: 'country=',

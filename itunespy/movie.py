@@ -15,17 +15,9 @@
 import itunespy
 from itunespy import result_item
 
-class MusicArtist(result_item.ResultItem):
+class MovieArtist(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
-
-        if 'amgArtistId' in json:
-            self.artist_amg_id = json['amgArtistId']
-        else:
-            self.artist_amg_id = None
-
-    def get_albums(self):
-        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['album'])[1:]
 
     # For debugging purposes
     def print_info(self):
