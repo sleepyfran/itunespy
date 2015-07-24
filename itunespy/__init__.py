@@ -16,6 +16,7 @@ import requests
 from itunespy import music_artist
 from itunespy import music_album
 from itunespy import movie_artist
+from itunespy import ebook_artist
 from itunespy import result_item
 
 '''
@@ -45,7 +46,7 @@ from itunespy import result_item
 '''
 
 # Returns the JSON data of the specified search arguments
-def get_json(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
+def get_json(term, country='US', media='all', entity=None, attribute=None, limit=50):
     search_url = _url_search_builder(term, country, media, entity, attribute, limit)
     r = requests.get(search_url)
 
@@ -55,7 +56,7 @@ def get_json(term, country='US', media='music', entity='musicArtist', attribute=
         raise ConnectionError(general_no_connection)
 
 
-def search(term, country='US', media='all', entity='musicArtist', attribute=None, limit=50):
+def search(term, country='US', media='all', entity=None, attribute=None, limit=50):
     json, result_count = get_json(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
@@ -184,7 +185,7 @@ def _get_result_list(json):
                 result_list.append(movie_result)
             # Ebook Author
             elif item['wrapperType'] == 'artist' and item['artistType'] == 'Author':
-                ebook_artist_result = result_item.ResultItem(item)
+                ebook_artist_result = ebook_artist.EbookArtist(item)
                 result_list.append(ebook_artist_result)
             # Tv Shows
             elif item['wrapperType'] == 'collection' and item['collectionType'] == 'TV Season':
@@ -205,15 +206,20 @@ def _get_result_list(json):
             if item['kind'] == 'ebook':
                 ebook_result = result_item.ResultItem(item)
                 result_list.append(ebook_result)
+        else:
+            unknown_result = result_item.ResultItem(item)
+            result_list.append(unknown_result)
 
     return result_list
 
 
-def _url_search_builder(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
+def _url_search_builder(term, country='US', media='all', entity=None, attribute=None, limit=50):
     built_url = base_search_url + _parse_query(term)
     built_url += ampersand + parameters[1] + country
     built_url += ampersand + parameters[2] + media
-    built_url += ampersand + parameters[3] + entity
+
+    if entity is not None:
+        built_url += ampersand + parameters[3] + entity
 
     if attribute is not None:
         built_url += ampersand + parameters[4] + attribute
