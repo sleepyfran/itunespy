@@ -53,6 +53,9 @@ class ResultItem(object):
         if 'trackName' in json:
             self.track_name = json['trackName']
 
+        if 'trackId' in json:
+            self.track_id = json['trackId']
+
         if 'trackCensoredName' in json:
             self.track_censored_name = json['trackCensoredName']
 
