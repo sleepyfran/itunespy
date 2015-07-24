@@ -23,10 +23,6 @@ from itunespy import result_item
     This is a simple module made in my free time. It's not perfect, but it works well.
     I'm accepting any pull request to improve it, just follow the code style.
     For examples and documentation, take a look at the README.md
-
-    IMPORTANT: So far the wrapper is made ONLY for music and can only retrieve music content.
-               Anyway, you can always just fetch the JSON data from the general methods for other content.
-               I'm planning on adding support for other content soon.
 '''
 
 # --------
