@@ -7,5 +7,5 @@ setup(name='itunespy',
       author_email='zox198@gmail.com',
       license='LICENSE.txt',
       packages=['itunespy'],
-      zip_safe=False,
+      requires=['requests>=1.0'],
       url='https://github.com/spaceisstrange/itunespy')
