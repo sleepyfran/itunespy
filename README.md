@@ -25,11 +25,11 @@ Search an artist and show all its album's names:
 ```python
 import itunespy
 
-artist = itunespy.search_artist('Steven Wilson') # Returns a list
-albums = artist[0].get_albums() # Get albums from the first result
+artist = itunespy.search_artist('Steven Wilson')  # Returns a list
+albums = artist[0].get_albums()  # Get albums from the first result
 
 for album in albums:
-    print(album.album_name)
+    print(album.collection_name)
 ```
 
 Or search an album and show all its song's names:
@@ -37,8 +37,8 @@ Or search an album and show all its song's names:
 ```python
 import itunespy
 
-album = itunespy.search_album('One Hour By The Concrete Lake') # Returns a list
-tracks = album[0].get_tracks() # Get tracks from the first result
+album = itunespy.search_album('One Hour By The Concrete Lake')  # Returns a list
+tracks = album[0].get_tracks()  # Get tracks from the first result
 
 for track in tracks:
     print(track.artist_name + ': ' + track.track_name)
@@ -49,21 +49,21 @@ Or search for a track:
 ```python
 import itunespy
 
-track = itunespy.search('Iter Impius') # Returns a list
-print(track[0].artist_name + ': ' + track[0].track_name) # Get info from the first result
+track = itunespy.search('Iter Impius')  # Returns a list
+print(track[0].artist_name + ': ' + track[0].track_name)  # Get info from the first result
 ```
 
 Or ebook authors:
 
-```python
+```python    
 import itunespy
 
-author = itunespy.search('fyodor dostoevsky', entity=itunespy.entities['ebookAuthor'])
+author = itunespy.search_book_author('Fyodor Dostoevsky')  # Search for Dostoevsky
 
-books = author[0].get_books()
+books = author[0].get_books()  # Get books from the firs result
 
 for book in books:
-    print(book.track_name)
+    print(book.track_name)  # Show each book's name
 ```
 
 You can also perform a lookup:
@@ -74,26 +74,23 @@ import itunespy
 lookup = itunespy.lookup(upc=720642462928) # Lookup for the Weezer's album 'Weezer'
 
 for item in lookup:
-    print(item.artist_name + ': ' + item.album_name)
+    print(item.artist_name + ': ' + item.collection_name)
 ```
 
 Since the lookups returns a list of various objects, you can check its type like this:
 
 ```python
 import itunespy
-from itunespy import artist
-from itunespy import album
-from itunespy import track
+from itunespy import music_artist
+from itunespy import music_album
 
-lookup = itunespy.lookup(id=3024622, entity='album') # Lookup of all Biffy Clyro's albums
+lookup = itunespy.lookup(id=3024622, entity='album')  # Lookup of all Biffy Clyro's albums
 
 for item in lookup:
-    if type(item) is artist.Artist:
-        print('Artist: ' + item.artist_name) # The item is an artist
-    elif type(item) is album.Album:
-        print('Album: ' + item.album_name) # The item is an album
-    elif type(item) is track.Track:
-        print('Track: ' + item.track_name) # The item is a track
+    if type(item) is music_artist.MusicArtist:
+        print(item.artist_name)  # The item is an artist
+    elif type(item) is music_album.MusicAlbum:
+        print(item.collection_name)  # The item is an album
 ```
 
 Each request has some parameters that you need to know. Searches has these:

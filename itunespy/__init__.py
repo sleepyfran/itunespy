@@ -76,7 +76,7 @@ def search(term, country='US', media='all', entity=None, attribute=None, limit=5
 '''
 
 # Defines a general lookup. Returns the a list with the artists, albums or tracks
-def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
+def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='all', entity=None, attribute=None, limit=50):
     # If none of the basic lookup arguments are provided, raise a ValueError
     if id is None and artist_amg_id is None and upc is None:
         raise ValueError(lookup_no_ids)
@@ -96,6 +96,63 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
     return _get_result_list(json)
 
 # --------
+# Specific searches and lookups
+# --------
+# Music
+def search_artist(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'music', entities['musicArtist'], attribute, limit)
+
+def search_album(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'music', entities['album'], attribute, limit)
+
+def search_track(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'music', entities['song'], attribute, limit)
+
+def lookup_artist(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['musicArtist'], attribute, limit)
+
+def lookup_album(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['album'], attribute, limit)
+
+def lookup_track(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['song'], attribute, limit)
+
+# Books
+def search_book(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'ebook', entities['ebook'], attribute, limit)
+
+def search_book_author(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'ebook', entities['ebookAuthor'], attribute, limit)
+
+def lookup_book(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'ebook', entities['ebook'], attribute, limit)
+
+def lookup_book_author(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'ebook', entities['ebookAuthor'], attribute, limit)
+
+# TV Shows
+def search_tv_episodes(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'tvShow', entities['tvEpisode'], attribute, limit)
+
+def search_tv_season(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'tvShow', entities['tvSeason'], attribute, limit)
+
+def lookup_tv_episodes(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'tvShow', entities['tvEpisode'], attribute, limit)
+
+def lookup_tv_season(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
+    return lookup(id, artist_amg_id, upc, country, 'tvShow', entities['tvSeason'], attribute, limit)
+
+# Software
+def search_software(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'software', entities['software'], attribute, limit)
+
+def search_ipad_software(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'software', entities['iPadSoftware'], attribute, limit)
+
+def search_mac_software(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'software', entities['macSoftware'], attribute, limit)
+# --------
 # Parameters
 # --------
 base_search_url = 'https://itunes.apple.com/search?term='
@@ -107,7 +164,7 @@ entities = {
     'podcastAuthor': 'podcastAuthor',
     'podcast': 'podcast',
     'musicArtist': 'musicArtist',
-    'muscTrack': 'musicTrack',
+    'musicTrack': 'musicTrack',
     'album': 'album',
     'musicVideo': 'musicVideo',
     'mix': 'mix',

@@ -15,6 +15,19 @@
 class ResultItem(object):
     def __init__(self, json):
         self.artist_name = json['artistName']
+        self.type = None
+
+        if 'wrapperType' in json:
+            self.type = json['wrapperType']
+
+            if 'collectionType' in json:
+                self.collection_type = json['collectionType']
+            elif 'artistType' in json:
+                self.artist_type = json['artistType']
+            elif 'kind' in json:
+                self.track_type = json['kind']
+        elif 'kind' in json:
+            self.type = json['kind']
 
         if 'primaryGenreName' in json:
             self.artist_genre_name = json['primaryGenreName']
