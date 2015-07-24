@@ -2,9 +2,7 @@
 
 itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X. 
 
-**This project is a work in progress**
-
-**Important**: So far the wrapper is made ONLY for music and can only retrieve music content. Anyway, you can always just fetch the JSON data from the general methods for other content.**I'm planning on adding support for other content soon.**
+**Note**: This project is a work in progress
 
 ## Installing
 In order to install the module simply clone this project anywhere in your computer:
@@ -19,7 +17,7 @@ I'll add the package to pip once it reaches the final release.
 
 ## Dependencies
 
-itunespy requires [Requests](https://github.com/kennethreitz/requests) istalled.
+itunespy requires [Requests](https://github.com/kennethreitz/requests) installed.
 
 ## Examples and information
 Search an artist and show all its album's names:
@@ -51,8 +49,21 @@ Or search for a track:
 ```python
 import itunespy
 
-track = itunespy.search_track('Iter Impius') # Returns a list
+track = itunespy.search('Iter Impius') # Returns a list
 print(track[0].artist_name + ': ' + track[0].track_name) # Get info from the first result
+```
+
+Or ebook authors:
+
+```python
+import itunespy
+
+author = itunespy.search('fyodor dostoevsky', entity=itunespy.entities['ebookAuthor'])
+
+books = author[0].get_books()
+
+for book in books:
+    print(book.track_name)
 ```
 
 You can also perform a lookup:
