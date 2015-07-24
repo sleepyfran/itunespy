@@ -15,8 +15,10 @@
 class ResultItem(object):
     def __init__(self, json):
         self.artist_name = json['artistName']
-        self.artist_id = json['artistId']
         self.artist_genre_name = json['primaryGenreName']
+
+        if 'artistId' in json:
+            self.artist_id = json['artistId']
 
         if 'artistLinkUrl' in json:
             self.artist_link_url = json['artistLinkUrl']

@@ -12,9 +12,10 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import itunespy
 from itunespy import result_item
 
-class MusicTrack(result_item.ResultItem):
+class MusicVideo(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
 

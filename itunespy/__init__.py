@@ -16,6 +16,9 @@ import requests
 from itunespy import music_artist
 from itunespy import music_album
 from itunespy import music_track
+from itunespy import music_video
+from itunespy import movie_artist
+from itunespy import movie
 
 '''
     This is a simple module made in my free time. It's not perfect, but it works well.
@@ -140,14 +143,23 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
 
     for item in json:
         if item['wrapperType'] == 'artist' and item['artistType'] == 'Artist':
-            artist_result = music_artist.MusicArtist(item)
-            result_list.append(artist_result)
+            music_artist_result = music_artist.MusicArtist(item)
+            result_list.append(music_artist_result)
         elif item['wrapperType'] == 'collection' and item['collectionType'] == 'Album':
-            album_result = music_album.MusicAlbum(item)
-            result_list.append(album_result)
+            music_album_result = music_album.MusicAlbum(item)
+            result_list.append(music_album_result)
         elif item['wrapperType'] == 'track' and item['kind'] == 'song':
-            track_result = music_track.MusicTrack(item)
-            result_list.append(track_result)
+            music_track_result = music_track.MusicTrack(item)
+            result_list.append(music_track_result)
+        elif item['wrapperType'] == 'track' and item['kind'] == 'music-video':
+            music_video_result = music_video.MusicVideo(item)
+            result_list.append(music_video_result)
+        elif item['wrapperType'] == 'artist' and item['artistType'] == 'Movie Artist':
+            movie_artist_result = movie_artist.MovieArtist(item)
+            result_list.append(movie_artist_result)
+        elif item['wrapperType'] == 'track' and item['kind'] == 'feature-movie':
+            movie_result = movie.Movie(item)
+            result_list.append(movie_result)
 
     return result_list
 
