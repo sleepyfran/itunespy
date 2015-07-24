@@ -15,10 +15,8 @@
 import requests
 from itunespy import music_artist
 from itunespy import music_album
-from itunespy import music_track
-from itunespy import music_video
 from itunespy import movie_artist
-from itunespy import movie
+from itunespy import result_item
 
 '''
     This is a simple module made in my free time. It's not perfect, but it works well.
@@ -46,8 +44,8 @@ from itunespy import movie
     limit: The number of search results you want the iTunes Store to return.
 '''
 
-# Defines a general search. Returns the JSON data of the specified arguments
-def search(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
+# Returns the JSON data of the specified search arguments
+def get_json(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
     search_url = _url_search_builder(term, country, media, entity, attribute, limit)
     r = requests.get(search_url)
 
@@ -56,50 +54,14 @@ def search(term, country='US', media='music', entity='musicArtist', attribute=No
     except:
         raise ConnectionError(general_no_connection)
 
-# Defines an artist search. Returns a list of Artist instances. If there is no result, it'll raise a LookupError
-def search_artist(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
-    json, result_count = search(term, country, media, entity, attribute, limit)
+
+def search(term, country='US', media='all', entity='musicArtist', attribute=None, limit=50):
+    json, result_count = get_json(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
-        raise LookupError(artist_search_error + str(term))
+        raise LookupError(search_error + str(term))
 
-    artist_list = []
-
-    for item in json:
-        artist_result = music_artist.MusicArtist(item)
-        artist_list.append(artist_result)
-
-    return artist_list
-
-# Defines an album search. Returns a list of album instances. If there is no result, it'll raise a LookupError
-def search_album(term, country='US', media='music', entity='album', attribute=None, limit=50):
-    json, result_count = search(term, country, media, entity, attribute, limit)
-
-    if result_count == 0:
-        raise LookupError(album_search_error + str(term))
-
-    album_list = []
-
-    for item in json:
-        album_result = music_album.MusicAlbum(item)
-        album_list.append(album_result)
-
-    return album_list
-
-# Defines a track search. Return a list of track instances. If there is no result, it'll raise a LookupError
-def search_track(term, country='US', media='music', entity='musicTrack', attribute=None, limit=50):
-    json, result_count = search(term, country, media, entity, attribute, limit)
-
-    if result_count == 0:
-        raise LookupError(track_search_error + str(term))
-
-    track_list = []
-
-    for item in json:
-        track_result = music_track.MusicTrack(item)
-        track_list.append(track_result)
-
-    return track_list
+    return _get_result_list(json)
 
 # --------
 # Lookups
@@ -139,29 +101,7 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
     if result_count == 0:
         raise LookupError(lookup_error)
 
-    result_list = []
-
-    for item in json:
-        if item['wrapperType'] == 'artist' and item['artistType'] == 'Artist':
-            music_artist_result = music_artist.MusicArtist(item)
-            result_list.append(music_artist_result)
-        elif item['wrapperType'] == 'collection' and item['collectionType'] == 'Album':
-            music_album_result = music_album.MusicAlbum(item)
-            result_list.append(music_album_result)
-        elif item['wrapperType'] == 'track' and item['kind'] == 'song':
-            music_track_result = music_track.MusicTrack(item)
-            result_list.append(music_track_result)
-        elif item['wrapperType'] == 'track' and item['kind'] == 'music-video':
-            music_video_result = music_video.MusicVideo(item)
-            result_list.append(music_video_result)
-        elif item['wrapperType'] == 'artist' and item['artistType'] == 'Movie Artist':
-            movie_artist_result = movie_artist.MovieArtist(item)
-            result_list.append(movie_artist_result)
-        elif item['wrapperType'] == 'track' and item['kind'] == 'feature-movie':
-            movie_result = movie.Movie(item)
-            result_list.append(movie_result)
-
-    return result_list
+    return _get_result_list(json)
 
 # --------
 # Parameters
@@ -191,7 +131,7 @@ entities = {
     'macSoftware': 'macSoftware',
     'ebook': 'ebook',
     'ebookAuthor': 'ebookAuthor',
-    'all' : 'all',
+    'all': 'all',
     'allArtist': 'allArtist',
     'allTrack': 'allTrack'
 }
@@ -207,6 +147,7 @@ parameters = {
     8: 'upc='
 }
 general_no_connection = 'Cannot fetch JSON data'
+search_error = 'No results found with the keyword '
 artist_search_error = 'No artists found with the keyword '
 album_search_error = 'No albums found with the keyword '
 track_search_error = 'No tracks found with the keyword '
@@ -216,6 +157,58 @@ lookup_no_ids = 'No id, amg id or upc arguments provided'
 # --------
 # Private
 # --------
+def _get_result_list(json):
+    result_list = []
+
+    for item in json:
+        if 'wrapperType' in item:
+            # Music
+            if item['wrapperType'] == 'artist' and item['artistType'] == 'Artist':
+                music_artist_result = music_artist.MusicArtist(item)
+                result_list.append(music_artist_result)
+            elif item['wrapperType'] == 'collection' and item['collectionType'] == 'Album':
+                music_album_result = music_album.MusicAlbum(item)
+                result_list.append(music_album_result)
+            elif item['wrapperType'] == 'track' and item['kind'] == 'song':
+                music_track_result = result_item.ResultItem(item)
+                result_list.append(music_track_result)
+            elif item['wrapperType'] == 'track' and item['kind'] == 'music-video':
+                music_video_result = result_item.ResultItem(item)
+                result_list.append(music_video_result)
+            # Movies
+            elif item['wrapperType'] == 'artist' and item['artistType'] == 'Movie Artist':
+                movie_artist_result = movie_artist.MovieArtist(item)
+                result_list.append(movie_artist_result)
+            elif item['wrapperType'] == 'track' and item['kind'] == 'feature-movie':
+                movie_result = result_item.ResultItem(item)
+                result_list.append(movie_result)
+            # Ebook Author
+            elif item['wrapperType'] == 'artist' and item['artistType'] == 'Author':
+                ebook_artist_result = result_item.ResultItem(item)
+                result_list.append(ebook_artist_result)
+            # Tv Shows
+            elif item['wrapperType'] == 'collection' and item['collectionType'] == 'TV Season':
+                tv_season_result = result_item.ResultItem(item)
+                result_list.append(tv_season_result)
+            elif item['wrapperType'] == 'track' and item['kind'] == 'tv-episode':
+                tv_episode_result = result_item.ResultItem(item)
+                result_list.append(tv_episode_result)
+            # Software
+            elif item['wrapperType'] == 'software' and item['kind'] == 'software':
+                software_result = result_item.ResultItem(item)
+                result_list.append(software_result)
+            elif item['wrapperType'] == 'software' and item['kind'] == 'mac-software':
+                mac_software_result = result_item.ResultItem(item)
+                result_list.append(mac_software_result)
+
+        elif 'kind' in item:
+            if item['kind'] == 'ebook':
+                ebook_result = result_item.ResultItem(item)
+                result_list.append(ebook_result)
+
+    return result_list
+
+
 def _url_search_builder(term, country='US', media='music', entity='musicArtist', attribute=None, limit=50):
     built_url = base_search_url + _parse_query(term)
     built_url += ampersand + parameters[1] + country
@@ -229,7 +222,9 @@ def _url_search_builder(term, country='US', media='music', entity='musicArtist',
 
     return built_url
 
-def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None, limit=50):
+
+def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None,
+                        limit=50):
     built_url = base_lookup_url
     has_one_argument = False
 
@@ -262,6 +257,7 @@ def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', med
     built_url += ampersand + parameters[5] + str(limit)
 
     return built_url
+
 
 def _parse_query(query):
     return str(query).replace(' ', '+')

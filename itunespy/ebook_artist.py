@@ -12,11 +12,15 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import itunespy
 from itunespy import result_item
 
-class Movie(result_item.ResultItem):
+class EbookArtist(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
+
+    def get_books(self):
+        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['ebook'])[1:]
 
     # Only for debugging purposes
     def print_info(self):

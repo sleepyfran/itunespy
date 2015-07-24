@@ -15,7 +15,9 @@
 class ResultItem(object):
     def __init__(self, json):
         self.artist_name = json['artistName']
-        self.artist_genre_name = json['primaryGenreName']
+
+        if 'primaryGenreName' in json:
+            self.artist_genre_name = json['primaryGenreName']
 
         if 'artistId' in json:
             self.artist_id = json['artistId']
@@ -61,6 +63,9 @@ class ResultItem(object):
 
         if 'artworkUrl100' in json:
             self.artwork_url_100 = json['artworkUrl100']
+
+        if 'artworkUrl512' in json:
+            self.artwork_url_512 = json['artworkUrl512']
 
         if 'collectionName' in json:
             self.collection_name = json['collectionName']
@@ -124,6 +129,84 @@ class ResultItem(object):
 
         if 'isStreamable' in json:
             self.is_streamable = json['isStreamable']
+
+        if 'fileSizeBytes' in json:
+            self.file_size = json['fileSizeBytes']
+
+        if 'genres' in json:
+            self.genres = json['genres']
+
+        if 'price' in json:
+            self.price = json['price']
+
+        if 'description' in json:
+            self.description = json['description']
+
+        if 'genreIds' in json:
+            self.genre_ids = json['genreIds']
+
+        if 'artistIds' in json:
+            self.artist_ids = json['artistIds']
+
+        if 'formattedPrice' in json:
+            self.formatted_price = json['formattedPrice']
+
+        if 'averageUserRating' in json:
+            self.average_user_rating = json['averageUserRating']
+
+        if 'userRatingCount' in json:
+            self.user_rating_count = json['userRatingCount']
+
+        if 'screenshotUrls' in json:
+            self.screenshot_urls = json['screenshotUrls']
+
+        if 'ipadScreenshotUrls' in json:
+            self.ipad_screenshot_urls = json['ipadScreenshotUrls']
+
+        if 'features' in json:
+            self.features = json['features']
+
+        if 'supportedDevices' in json:
+            self.supported_devices = json['supportedDevices']
+
+        if 'advisories' in json:
+            self.advisories = json['advisories']
+
+        if 'isGameCenterEnabled' in json:
+            self.is_game_center_enabled = json['isGameCenterEnabled']
+
+        if 'userRatingCountForCurrentVersion' in json:
+            self.user_rating_count_for_current_version = json['userRatingCountForCurrentVersion']
+
+        if 'languageCodesISO2A' in json:
+            self.language_codes = json['languageCodesISO2A']
+
+        if 'averageUserRatingForCurrentVersion' in json:
+            self.average_user_rating_for_current_version = json['averageUserRatingForCurrentVersion']
+
+        if 'trackContentRating' in json:
+            self.track_content_rating = json['trackContentRating']
+
+        if 'version' in json:
+            self.version = json['version']
+
+        if 'sellerName' in json:
+            self.seller_name = json['sellerName']
+
+        if 'sellerUrl' in json:
+            self.seller_url = json['sellerUrl']
+
+        if 'bundleId' in json:
+            self.bundle_id = json['bundleId']
+
+        if 'releaseNotes' in json:
+            self.release_notes = json['releaseNotes']
+
+        if 'isVppDeviceBasedLicensingEnabled' in json:
+            self.is_vpp_device_based_licensing_enabled = json['isVppDeviceBasedLicensingEnabled']
+
+        if 'minimumOsVersion' in json:
+            self.minimum_os_version = json['minimumOsVersion']
 
     # Only for debugging purposes
     def print_info(self):
