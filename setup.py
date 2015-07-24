@@ -7,7 +7,7 @@ setup(
     author="Fran González (@spaceisstrange)",
     author_email="zox198@gmail.com",
     url='https://github.com/spaceisstrange/itunespy',
+    download_url='https://github.com/spaceisstrange/itunespy/releases',
     install_requires=['requests>=1.0'],
     license='LICENSE.txt',
-    packages=['itunespy']
-)
+    packages=['itunespy'])
