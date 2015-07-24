@@ -45,19 +45,15 @@ from itunespy import result_item
     limit: The number of search results you want the iTunes Store to return.
 '''
 
-# Returns the JSON data of the specified search arguments
-def get_json(term, country='US', media='all', entity=None, attribute=None, limit=50):
+def search(term, country='US', media='all', entity=None, attribute=None, limit=50):
     search_url = _url_search_builder(term, country, media, entity, attribute, limit)
     r = requests.get(search_url)
 
     try:
-        return r.json()['results'], r.json()['resultCount']
+        json = r.json()['results']
+        result_count = r.json()['resultCount']
     except:
         raise ConnectionError(general_no_connection)
-
-
-def search(term, country='US', media='all', entity=None, attribute=None, limit=50):
-    json, result_count = get_json(term, country, media, entity, attribute, limit)
 
     if result_count == 0:
         raise LookupError(search_error + str(term))
@@ -90,7 +86,6 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='music', e
         raise ValueError(lookup_no_ids)
 
     lookup_url = _url_lookup_builder(id, artist_amg_id, upc, country, media, entity, attribute, limit)
-
     r = requests.get(lookup_url)
 
     try:
