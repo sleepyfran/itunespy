@@ -124,7 +124,7 @@ For lookups, the same parameters apply except for *term*, that changes to a coup
     artist_amg_id: All Music Guide ID of the artist
     upc: UPCs/EANs
 
-Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_tracks* in *music_artist*. Each object has their own variables, following the iTune's API names adapted to Python syntax.
+Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_albums* in *music_artist*. Each object has their own variables, following the iTune's API names adapted to Python syntax.
 
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
