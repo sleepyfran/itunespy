@@ -1,8 +1,6 @@
 # itunespy
 
-itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X. 
-
-**Note**: This project is a work in progress
+itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X.
 
 ## Installing
 You can install it from *pip*:
@@ -108,17 +106,17 @@ For a complete list, take a look at the *wrapperType* and *kind* documentation i
 Each request has some parameters that you need to know. Searches has these:
     
     term: The URL-encoded text string you want to search for. Example: Steven Wilson.
-           The function will take care of spaces so you don't have to.
+            The function will take care of spaces so you don't have to.
     country: The two-letter country code for the store you want to search.
-              For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+            For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
     media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
     entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
-             Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+            Full list: musicArtist, musicTrack, album, musicVideo, mix, song
     attribute: The attribute you want to search for in the stores, relative to the specified media type.
     limit: The number of search results you want the iTunes Store to return.
     
 **Note**: Only the *term* is obligatory, the other ones have default values that will be used in case you don't provide any.
-**Note 2**: In specific searches, like search_artist or search_album, etc, don't change entity, since it's configure inside the function to retrieve an specific entity.
+**Note 2**: In specific searches, like *search_artist* or *search_album*, etc, don't change entity, since it's configure inside the function to retrieve an specific entity.
 
 For lookups, the same parameters apply except for *term*, that changes to a couple of id fields:
     
@@ -126,7 +124,7 @@ For lookups, the same parameters apply except for *term*, that changes to a coup
     artist_amg_id: All Music Guide ID of the artist
     upc: UPCs/EANs
 
-Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author. Each object has their own variables, following the iTune's API names adapted to Python syntax.
+Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_tracks* in *music_artist*. Each object has their own variables, following the iTune's API names adapted to Python syntax.
 
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
