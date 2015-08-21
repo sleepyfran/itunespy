@@ -21,7 +21,3 @@ class MusicAlbum(result_item.ResultItem):
 
     def get_tracks(self):
         return itunespy.lookup(id=self.collection_id, entity=itunespy.entities['song'])[1:]
-
-    # For debugging purposes
-    def print_info(self):
-        result_item.ResultItem.print_info(self)

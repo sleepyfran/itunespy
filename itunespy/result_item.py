@@ -11,6 +11,8 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+from avahi import string_array_to_txt_array
+
 
 class ResultItem(object):
     def __init__(self, json):
@@ -224,8 +226,11 @@ class ResultItem(object):
         if 'minimumOsVersion' in json:
             self.minimum_os_version = json['minimumOsVersion']
 
-    # Only for debugging purposes
-    def print_info(self):
+    def __repr__(self):
+        string = ''
+
         for key, value in self.__dict__.items():
             if not key.startswith('__'):
-                print(key + ': ' + str(value))
+                string += '\n' + key + ':' + str(value)
+
+        return string

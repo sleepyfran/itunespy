@@ -21,7 +21,3 @@ class EbookArtist(result_item.ResultItem):
 
     def get_books(self):
         return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['ebook'])[1:]
-
-    # Only for debugging purposes
-    def print_info(self):
-        result_item.ResultItem.print_info(self)

@@ -21,7 +21,3 @@ class MovieArtist(result_item.ResultItem):
 
     def get_movies(self):
         return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['movie'])[1:]
-
-    # Only for debugging purposes
-    def print_info(self):
-        result_item.ResultItem.print_info(self)
