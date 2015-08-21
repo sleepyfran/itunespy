@@ -101,7 +101,7 @@ for l in lookup:
         print(l.artist_type)  # Since it's an artist, you can also check its artist type
 ```
 
-For a complete list, take a look at the *wrapperType* and *kind* documentation in the iTune API's site.
+For a complete list, take a look at the *wrapperType* and *kind* documentation in the iTunes API's site.
 
 Each request has some parameters that you need to know. Searches has these:
     
@@ -116,15 +116,15 @@ Each request has some parameters that you need to know. Searches has these:
     limit: The number of search results you want the iTunes Store to return.
     
 **Note**: Only the *term* is obligatory, the other ones have default values that will be used in case you don't provide any.
-**Note 2**: In specific searches, like *search_artist* or *search_album*, etc, don't change entity, since it's configure inside the function to retrieve an specific entity.
+**Note 2**: In specific searches, like *search_artist* or *search_album*, etc, don't change entity, since it's configured inside the function to retrieve an specific entity.
 
-For lookups, the same parameters apply except for *term*, that changes to a couple of id fields:
+For lookups, the same parameters apply except for *term*, which changes to a couple of id fields:
     
     id: iTunes ID of the artist/album/track
     artist_amg_id: All Music Guide ID of the artist
     upc: UPCs/EANs
 
-Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_albums* in *music_artist*. Each object has their own variables, following the iTune's API names adapted to Python syntax.
+Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_albums* in *music_artist*. Each object has their own variables, following the iTunes API names adapted to Python syntax.
 
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
