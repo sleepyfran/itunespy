@@ -11,8 +11,6 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
-from avahi import string_array_to_txt_array
-
 
 class ResultItem(object):
     def __init__(self, json):
