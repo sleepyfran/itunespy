@@ -30,7 +30,7 @@ class ResultItem(object):
             self.type = json['kind']
 
         if 'primaryGenreName' in json:
-            self.artist_genre_name = json['primaryGenreName']
+            self.primary_genre_name = json['primaryGenreName']
 
         if 'artistId' in json:
             self.artist_id = json['artistId']
@@ -42,7 +42,7 @@ class ResultItem(object):
             self.artist_radio_url = json['radioStationUrl']
 
         if 'primaryGenreId' in json:
-            self.artist_genre_id = json['primaryGenreId']
+            self.primary_genre_id = json['primaryGenreId']
 
         if 'amgArtistId' in json:
             self.artist_amg_id = json['amgArtistId']
