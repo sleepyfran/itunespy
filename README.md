@@ -48,7 +48,7 @@ Or search for a track:
 ```python
 import itunespy
 
-track = itunespy.search('Iter Impius')  # Returns a list
+track = itunespy.search_track('Iter Impius')  # Returns a list
 print(track[0].artist_name + ': ' + track[0].track_name)  # Get info from the first result
 ```
 
