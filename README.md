@@ -132,5 +132,9 @@ To take a look at all of this simply go to the [item_result](https://github.com/
 - Add get_track_time_in_minutes() and get_track_time_in_hours() to result_item class
 - Add get_album_time() to album class
 
+**Note:** all these features will be first implemented in the *future* branch and then merged with master and pushed to PyPi.
+
 ## Contributing
 I'm accepting any pull request to improve or fix anything in the library, just fork the project and hack it!
+
+**Note:** if you make any change to the code, please make them in the *future* branch.
