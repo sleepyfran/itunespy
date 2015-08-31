@@ -15,22 +15,12 @@
 import itunespy
 from itunespy import result_item
 
-class MusicAlbum(result_item.ResultItem):
+class Track(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
-        self._track_list = []
 
-    def get_tracks(self):
-        if not self._track_list:
-            tracks = itunespy.lookup(id=self.collection_id, entity=itunespy.entities['song'])[1:]
-            for track in tracks:
-                self._track_list.append(track)
-        return self._track_list
+    def get_track_time_minutes(self, round_number=2):
+        return round(self.track_time / 60000, round_number)
 
-    def get_album_time(self, round_number=2):
-        if not self._track_list:
-            self.get_tracks()
-        album_time = 0.0
-        for track in self._track_list:
-            album_time += track.get_track_time_minutes()
-        return round(album_time, round_number)
+    def get_track_time_hours(self, round_number=2):
+        return round(self.track_time / 6000000, round_number)

@@ -129,8 +129,8 @@ Every search and lookup will **always** return a list of *result_item* instances
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
 ## Future features
-- Add get_track_time_in_minutes() and get_track_time_in_hours() to result_item class
-- Add get_album_time() to album class
+- ~~Add get_track_time_in_minutes() and get_track_time_in_hours() to result_item class~~ Implemented in version 1.5
+- ~~Add get_album_time() to album class~~ Implemented in version 1.5
 
 ## Contributing
 I'm accepting any pull request to improve or fix anything in the library, just fork the project and hack it!

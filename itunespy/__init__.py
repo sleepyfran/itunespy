@@ -17,6 +17,7 @@ from itunespy import music_artist
 from itunespy import music_album
 from itunespy import movie_artist
 from itunespy import ebook_artist
+from itunespy import track
 from itunespy import result_item
 
 '''
@@ -116,6 +117,13 @@ def lookup_album(id=None, artist_amg_id=None, upc=None, country='US', attribute=
 
 def lookup_track(id=None, artist_amg_id=None, upc=None, country='US', attribute=None, limit=50):
     return lookup(id, artist_amg_id, upc, country, 'music', entities['song'], attribute, limit)
+
+# Movies
+def search_director(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'movie', entities['movieArtist'], attribute, limit)
+
+def search_movie(term, country='US', attribute=None, limit=50):
+    return search(term, country, 'movie', entities['movie'], attribute, limit)
 
 # Books
 def search_book(term, country='US', attribute=None, limit=50):
@@ -219,17 +227,17 @@ def _get_result_list(json):
                 music_album_result = music_album.MusicAlbum(item)
                 result_list.append(music_album_result)
             elif item['wrapperType'] == 'track' and item['kind'] == 'song':
-                music_track_result = result_item.ResultItem(item)
+                music_track_result = track.Track(item)
                 result_list.append(music_track_result)
             elif item['wrapperType'] == 'track' and item['kind'] == 'music-video':
-                music_video_result = result_item.ResultItem(item)
+                music_video_result = track.Track(item)
                 result_list.append(music_video_result)
             # Movies
             elif item['wrapperType'] == 'artist' and item['artistType'] == 'Movie Artist':
                 movie_artist_result = movie_artist.MovieArtist(item)
                 result_list.append(movie_artist_result)
             elif item['wrapperType'] == 'track' and item['kind'] == 'feature-movie':
-                movie_result = result_item.ResultItem(item)
+                movie_result = track.Track(item)
                 result_list.append(movie_result)
             # Ebook Author
             elif item['wrapperType'] == 'artist' and item['artistType'] == 'Author':
@@ -240,7 +248,7 @@ def _get_result_list(json):
                 tv_season_result = result_item.ResultItem(item)
                 result_list.append(tv_season_result)
             elif item['wrapperType'] == 'track' and item['kind'] == 'tv-episode':
-                tv_episode_result = result_item.ResultItem(item)
+                tv_episode_result = track.Track(item)
                 result_list.append(tv_episode_result)
             # Software
             elif item['wrapperType'] == 'software' and item['kind'] == 'software':
