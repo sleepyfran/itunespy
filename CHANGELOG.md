@@ -5,7 +5,7 @@
 - search_director and search_movie implemented
 
 # Version 1.3
-- Deprecates the use of artist_genre_name and artist_genre_id in favor of primary_genre_name and primary_genre_id since those properties can be in artists, albums, tracks and more.
+- Deprecated use of artist_genre_name and artist_genre_id in favor of primary_genre_name and primary_genre_id since those properties can be in artists, albums, tracks and more.
 
 # Version 1.2.1
 - Removed unused dependency
