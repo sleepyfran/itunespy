@@ -31,7 +31,7 @@ for album in albums:
     print(album.collection_name)
 ```
 
-Or search an album and show all its song's names:
+Or search an album and show all its song's names and length, and finally the album length:
 
 ```python
 import itunespy
@@ -40,7 +40,8 @@ album = itunespy.search_album('One Hour By The Concrete Lake')  # Returns a list
 tracks = album[0].get_tracks()  # Get tracks from the first result
 
 for track in tracks:
-    print(track.artist_name + ': ' + track.track_name)
+    print(track.artist_name + ': ' + track.track_name + str(track.get_track_time_minutes()))
+print('Total playing time: ' + str(album[0].get_album_time()))
 ```
 
 Or search for a track:
@@ -48,8 +49,8 @@ Or search for a track:
 ```python
 import itunespy
 
-track = itunespy.search('Iter Impius')  # Returns a list
-print(track[0].artist_name + ': ' + track[0].track_name)  # Get info from the first result
+track = itunespy.search_track('Iter Impius')  # Returns a list
+print(track[0].artist_name + ': ' + track[0].track_name + ' | Length: ' + str(track[0].get_track_time_minutes())) # Get info from the first result
 ```
 
 Or ebook authors:
