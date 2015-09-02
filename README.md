@@ -2,6 +2,8 @@
 
 itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X.
 
+**Current version:** 1.5 (02/09/2015)
+
 ## Installing
 You can install it from *pip*:
     
