@@ -19,6 +19,7 @@ class MusicAlbum(result_item.ResultItem):
     def __init__(self, json):
         result_item.ResultItem.__init__(self, json)
         self._track_list = []
+        self._album_time = None
 
     def get_tracks(self):
         if not self._track_list:
@@ -30,7 +31,9 @@ class MusicAlbum(result_item.ResultItem):
     def get_album_time(self, round_number=2):
         if not self._track_list:
             self.get_tracks()
-        album_time = 0.0
-        for track in self._track_list:
-            album_time += track.get_track_time_minutes()
-        return round(album_time, round_number)
+        if self._album_time is None:
+            album_time = 0.0
+            for track in self._track_list:
+                album_time += track.get_track_time_minutes()
+            self._album_time = round(album_time, round_number)
+        return self._album_time
