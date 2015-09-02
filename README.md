@@ -31,7 +31,7 @@ for album in albums:
     print(album.collection_name)
 ```
 
-Or search an album and show all its song's names:
+Or search an album and show all its song's names and length, and finally the album length:
 
 ```python
 import itunespy
@@ -40,7 +40,8 @@ album = itunespy.search_album('One Hour By The Concrete Lake')  # Returns a list
 tracks = album[0].get_tracks()  # Get tracks from the first result
 
 for track in tracks:
-    print(track.artist_name + ': ' + track.track_name)
+    print(track.artist_name + ': ' + track.track_name + str(track.get_track_time_minutes()))
+print('Total playing time: ' + str(album[0].get_album_time()))
 ```
 
 Or search for a track:
@@ -49,7 +50,7 @@ Or search for a track:
 import itunespy
 
 track = itunespy.search_track('Iter Impius')  # Returns a list
-print(track[0].artist_name + ': ' + track[0].track_name)  # Get info from the first result
+print(track[0].artist_name + ': ' + track[0].track_name + ' | Length: ' + str(track[0].get_track_time_minutes())) # Get info from the first result
 ```
 
 Or ebook authors:
@@ -129,8 +130,8 @@ Every search and lookup will **always** return a list of *result_item* instances
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
 ## Future features
-- Add get_track_time_in_minutes() and get_track_time_in_hours() to result_item class
-- Add get_album_time() to album class
+- ~~Add get_track_time_in_minutes() and get_track_time_in_hours() to result_item class~~ Implemented in version 1.5
+- ~~Add get_album_time() to album class~~ Implemented in version 1.5
 
 **Note:** all these features will be first implemented in the *future* branch and then merged with master and pushed to PyPi.
 
