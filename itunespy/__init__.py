@@ -44,7 +44,7 @@ from itunespy import result_item
 
 def search(term, country='US', media='all', entity=None, attribute=None, limit=50):
     search_url = _url_search_builder(term, country, media, entity, attribute, limit)
-    r = requests.get(search_url)
+    r = requests.get(search_url, verify=False)
 
     try:
         json = r.json()['results']
