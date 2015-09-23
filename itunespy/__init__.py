@@ -83,7 +83,7 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='all', ent
         raise ValueError(lookup_no_ids)
 
     lookup_url = _url_lookup_builder(id, artist_amg_id, upc, country, media, entity, attribute, limit)
-    r = requests.get(lookup_url)
+    r = requests.get(lookup_url, verify=False)
 
     try:
         json = r.json()['results']
