@@ -130,7 +130,7 @@ Every search and lookup will **always** return a list of *result_item* instances
 To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
 
 ## Future features
-No future features right now. If you have any suggestion, open an issue with whatever comes to your mind :)
+Take a look at the issues section to see what's going on with the features I want to add. [Issues](https://github.com/spaceisstrange/itunespy/issues).
 
 **Note:** all these features will be first implemented in the *future* branch and then merged with master and pushed to PyPi.
 
