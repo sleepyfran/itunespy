@@ -1,4 +1,4 @@
-# itunespy [![PyPI version](https://badge.fury.io/py/itunespy.svg)](http://badge.fury.io/py/itunespy)
+# itunespy [![PyPI version](https://badge.fury.io/py/itunespy.svg)](http://badge.fury.io/py/itunespy) [![Code Issues](https://www.quantifiedcode.com/api/v1/project/e5ebcc74b8b24d82a6b5e07dad1e49c3/badge.svg)](https://www.quantifiedcode.com/app/project/e5ebcc74b8b24d82a6b5e07dad1e49c3)
 
 itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X.
 
