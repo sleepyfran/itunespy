@@ -17,7 +17,15 @@ from itunespy import result_item
 
 class MovieArtist(result_item.ResultItem):
     def __init__(self, json):
+        """
+        Initializes the ResultItem class from the JSON provided
+        :param json: String. Raw JSON data to fetch information from
+        """
         result_item.ResultItem.__init__(self, json)
 
     def get_movies(self):
+        """
+        Retrieves all the movies published by the artist
+        :return: List. Movies published by the artist
+        """
         return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['movie'])[1:]

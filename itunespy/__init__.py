@@ -29,20 +29,20 @@ from itunespy import result_item
 # --------
 # Searches
 # --------
-
-'''
-    term: The URL-encoded text string you want to search for. Example: Steven Wilson.
-           The function will take care of spaces so you don't have to.
-    country: The two-letter country code for the store you want to search.
-              For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
-    media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
-    entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
-             Full list: musicArtist, musicTrack, album, musicVideo, mix, song
-    attribute: The attribute you want to search for in the stores, relative to the specified media type.
-    limit: The number of search results you want the iTunes Store to return.
-'''
-
 def search(term, country='US', media='all', entity=None, attribute=None, limit=50):
+    """
+    Returns the result of the search of the specified term in an array of result_item(s)
+    :param term: String. The URL-encoded text string you want to search for. Example: Steven Wilson.
+                 The method will take care of spaces so you don't have to.
+    :param country: String. The two-letter country code for the store you want to search.
+                    For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+    :param media: String. The media type you want to search for. Example: music
+    :param entity: String. The type of results you want returned, relative to the specified media type. Example: musicArtist.
+                   Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+    :param attribute: String. The attribute you want to search for in the stores, relative to the specified media type.
+    :param limit: Integer. The number of search results you want the iTunes Store to return.
+    :return: An array of result_item(s)
+    """
     search_url = _url_search_builder(term, country, media, entity, attribute, limit)
     r = requests.get(search_url)
 
@@ -60,24 +60,21 @@ def search(term, country='US', media='all', entity=None, attribute=None, limit=5
 # --------
 # Lookups
 # --------
-
-'''
-    - Note: You MUST provide at least one of these three id's
-    id: iTunes ID of the artist/album/track
-    artist_amg_id: All Music Guide ID of the artist
-    upc: UPCs/EANs
-    ---------------------------------------------------------------------------------------------------------------
-    country: The two-letter country code for the store you want to search.
-              For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
-    media: The media type you want to search for. Since this module is made for music I recommend leaving it blank.
-    entity: The type of results you want returned, relative to the specified media type. Example: musicArtist.
-             Full list: musicArtist, musicTrack, album, musicVideo, mix, song
-    attribute: The attribute you want to search for in the stores, relative to the specified media type.
-    limit: The number of search results you want the iTunes Store to return.
-'''
-
-# Defines a general lookup. Returns the a list with the artists, albums or tracks
 def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='all', entity=None, attribute=None, limit=50):
+    """
+    Returns the result of the lookup of the specified id, artist_amg_id or upc in an array of result_item(s)
+    :param id: String. iTunes ID of the artist, album, track, ebook or software
+    :param artist_amg_id: String. All Music Guide ID of the artist
+    :param upc: String. UPCs/EANs
+    :param country: String. The two-letter country code for the store you want to search.
+                    For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+    :param media: String. The media type you want to search for. Example: music
+    :param entity: String. The type of results you want returned, relative to the specified media type. Example: musicArtist.
+                   Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+    :param attribute: String. The attribute you want to search for in the stores, relative to the specified media type.
+    :param limit: Integer. The number of search results you want the iTunes Store to return.
+    :return: An array of result_item(s)
+    """
     # If none of the basic lookup arguments are provided, raise a ValueError
     if id is None and artist_amg_id is None and upc is None:
         raise ValueError(lookup_no_ids)
@@ -215,6 +212,11 @@ lookup_no_ids = 'No id, amg id or upc arguments provided'
 # Private
 # --------
 def _get_result_list(json):
+    """
+    Analyzes the provided JSON data and returns an array of result_item(s) based on its content
+    :param json: Raw JSON data to analyze
+    :return: An array of result_item(s) from the provided JSON data
+    """
     result_list = []
 
     for item in json:
@@ -258,10 +260,9 @@ def _get_result_list(json):
                 mac_software_result = result_item.ResultItem(item)
                 result_list.append(mac_software_result)
 
-        elif 'kind' in item:
-            if item['kind'] == 'ebook':
-                ebook_result = result_item.ResultItem(item)
-                result_list.append(ebook_result)
+        elif 'kind' in item and item['kind'] == 'ebook':
+            ebook_result = result_item.ResultItem(item)
+            result_list.append(ebook_result)
         else:
             unknown_result = result_item.ResultItem(item)
             result_list.append(unknown_result)
@@ -270,6 +271,19 @@ def _get_result_list(json):
 
 
 def _url_search_builder(term, country='US', media='all', entity=None, attribute=None, limit=50):
+    """
+    Builds the URL to perform the search based on the provided data
+    :param term: String. The URL-encoded text string you want to search for. Example: Steven Wilson.
+                 The method will take care of spaces so you don't have to.
+    :param country: String. The two-letter country code for the store you want to search.
+                    For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+    :param media: String. The media type you want to search for. Example: music
+    :param entity: String. The type of results you want returned, relative to the specified media type. Example: musicArtist.
+                   Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+    :param attribute: String. The attribute you want to search for in the stores, relative to the specified media type.
+    :param limit: Integer. The number of search results you want the iTunes Store to return.
+    :return: The built URL as a string
+    """
     built_url = base_search_url + _parse_query(term)
     built_url += ampersand + parameters[1] + country
     built_url += ampersand + parameters[2] + media
@@ -287,6 +301,20 @@ def _url_search_builder(term, country='US', media='all', entity=None, attribute=
 
 def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', media='music', entity=None, attribute=None,
                         limit=50):
+    """
+    Builds the URL to perform the lookup based on the provided data
+    :param id: String. iTunes ID of the artist, album, track, ebook or software
+    :param artist_amg_id: String. All Music Guide ID of the artist
+    :param upc: String. UPCs/EANs
+    :param country: String. The two-letter country code for the store you want to search.
+                    For a full list of the codes: http://en.wikipedia.org/wiki/%20ISO_3166-1_alpha-2
+    :param media: String. The media type you want to search for. Example: music
+    :param entity: String. The type of results you want returned, relative to the specified media type. Example: musicArtist.
+                   Full list: musicArtist, musicTrack, album, musicVideo, mix, song
+    :param attribute: String. The attribute you want to search for in the stores, relative to the specified media type.
+    :param limit: Integer. The number of search results you want the iTunes Store to return.
+    :return: The built URL as a string
+    """
     built_url = base_lookup_url
     has_one_argument = False
 
@@ -322,4 +350,9 @@ def _url_lookup_builder(id=None, artist_amg_id=None, upc=None, country='US', med
 
 
 def _parse_query(query):
+    """
+    Replaces every space in the provided query with a +
+    :param query: term to delete spaces
+    :return: query without spaces as a string
+    """
     return str(query).replace(' ', '+')

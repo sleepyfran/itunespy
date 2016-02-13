@@ -13,7 +13,14 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
 class ResultItem(object):
+    """
+    Defines a general result item
+    """
     def __init__(self, json):
+        """
+        Initializes the ResultItem class from the JSON provided
+        :param json: String. Raw JSON data to fetch information from
+        """
         self.artist_name = json['artistName']
         self.type = None
 
@@ -225,6 +232,10 @@ class ResultItem(object):
             self.minimum_os_version = json['minimumOsVersion']
 
     def __repr__(self):
+        """
+        Retrieves all keys in the class as a String
+        :return: String. All the keys available in the class
+        """
         string = ''
 
         for key, value in self.__dict__.items():

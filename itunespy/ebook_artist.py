@@ -16,8 +16,19 @@ import itunespy
 from itunespy import result_item
 
 class EbookArtist(result_item.ResultItem):
+    """
+    Defines an eBook Artist
+    """
     def __init__(self, json):
+        """
+        Initializes the ResultItem class from the JSON provided
+        :param json: String. Raw JSON data to fetch information from
+        """
         result_item.ResultItem.__init__(self, json)
 
     def get_books(self):
+        """
+        Retrieves all the books published by the artist
+        :return: List. Books published by the artist
+        """
         return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['ebook'])[1:]

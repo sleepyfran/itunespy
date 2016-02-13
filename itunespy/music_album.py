@@ -17,11 +17,19 @@ from itunespy import result_item
 
 class MusicAlbum(result_item.ResultItem):
     def __init__(self, json):
+        """
+        Initializes the ResultItem class from the JSON provided
+        :param json: String. Raw JSON data to fetch information from
+        """
         result_item.ResultItem.__init__(self, json)
         self._track_list = []
         self._album_time = None
 
     def get_tracks(self):
+        """
+        Retrieves all the tracks of the album if they haven't been retrieved yet
+        :return: List. Tracks of the current album
+        """
         if not self._track_list:
             tracks = itunespy.lookup(id=self.collection_id, entity=itunespy.entities['song'])[1:]
             for track in tracks:
@@ -29,6 +37,11 @@ class MusicAlbum(result_item.ResultItem):
         return self._track_list
 
     def get_album_time(self, round_number=2):
+        """
+        Retrieves all of the track's length and returns the sum of all
+        :param round_number: Int. Number of decimals to round the sum
+        :return: Int. Sum of all the track's length
+        """
         if not self._track_list:
             self.get_tracks()
         if self._album_time is None:
