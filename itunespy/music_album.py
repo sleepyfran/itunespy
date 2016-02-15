@@ -16,6 +16,9 @@ import itunespy
 from itunespy import result_item
 
 class MusicAlbum(result_item.ResultItem):
+    """
+    Defines an Music Album
+    """
     def __init__(self, json):
         """
         Initializes the ResultItem class from the JSON provided

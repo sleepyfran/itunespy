@@ -16,6 +16,9 @@ import itunespy
 from itunespy import result_item
 
 class Track(result_item.ResultItem):
+    """
+    Defines a Track whether it's a music track or a movie or a show episode
+    """
     def __init__(self, json):
         """
         Initializes the ResultItem class from the JSON provided
