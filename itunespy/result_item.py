@@ -108,11 +108,17 @@ class ResultItem(object):
         if 'trackPrice' in json:
             self.track_price = json['trackPrice']
 
+        if 'trackRentalPrice' in json:
+            self.track_rental_price = json['trackRentalPrice']
+
         if 'collectionHdPrice' in json:
             self.collection_hd_price = json['collectionHdPrice']
 
         if 'trackHdPrice' in json:
             self.track_hd_price = json['trackHdPrice']
+
+        if 'trackHdRentalPrice' in json:
+            self.track_hd_rental_price = json['trackHdRentalPrice']
 
         if 'releaseDate' in json:
             self.release_date = json['releaseDate']
