@@ -1,3 +1,6 @@
+# Version 1.5.5
+- Added self.track_rental_price and self.track_hd_rental_price by _octopyth_
+
 # Version 1.5
 - Now you can get a Track time in *minutes* and *hours* using get_track_time_minutes() and get_track_time_hours()
 - The function get_tracks() in MusicAlbum now stores all tracks in _track_list if it's empty
