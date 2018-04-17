@@ -1,5 +1,5 @@
 # Version 1.5.5
-- Added self.track_rental_price and self.track_hd_rental_price by _octopyth_
+- Added self.track_rental_price and self.track_hd_rental_price by [_@octopyth_](https://github.com/octopyth)
 
 # Version 1.5
 - Now you can get a Track time in *minutes* and *hours* using get_track_time_minutes() and get_track_time_hours()
