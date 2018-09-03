@@ -19,12 +19,12 @@ class MusicAlbum(result_item.ResultItem):
     """
     Defines an Music Album
     """
-    def __init__(self, json):
+    def __init__(self, json, country=None):
         """
         Initializes the ResultItem class from the JSON provided
         :param json: String. Raw JSON data to fetch information from
         """
-        result_item.ResultItem.__init__(self, json)
+        result_item.ResultItem.__init__(self, json, country)
         self._track_list = []
         self._album_time = None
 
@@ -34,7 +34,7 @@ class MusicAlbum(result_item.ResultItem):
         :return: List. Tracks of the current album
         """
         if not self._track_list:
-            tracks = itunespy.lookup(id=self.collection_id, entity=itunespy.entities['song'])[1:]
+            tracks = itunespy.lookup(id=self.collection_id, country=self.country, entity=itunespy.entities['song'])[1:]
             for track in tracks:
                 self._track_list.append(track)
         return self._track_list

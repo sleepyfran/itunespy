@@ -55,7 +55,7 @@ def search(term, country='US', media='all', entity=None, attribute=None, limit=5
     if result_count == 0:
         raise LookupError(search_error + str(term))
 
-    return _get_result_list(json)
+    return _get_result_list(json, country)
 
 # --------
 # Lookups
@@ -91,7 +91,7 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='all', ent
     if result_count == 0:
         raise LookupError(lookup_error)
 
-    return _get_result_list(json)
+    return _get_result_list(json, country)
 
 # --------
 # Specific searches and lookups
@@ -211,7 +211,7 @@ lookup_no_ids = 'No id, amg id or upc arguments provided'
 # --------
 # Private
 # --------
-def _get_result_list(json):
+def _get_result_list(json, country=None):
     """
     Analyzes the provided JSON data and returns an array of result_item(s) based on its content
     :param json: Raw JSON data to analyze
@@ -266,6 +266,8 @@ def _get_result_list(json):
         else:
             unknown_result = result_item.ResultItem(item)
             result_list.append(unknown_result)
+
+        result_list[-1].country = country
 
     return result_list
 

@@ -16,11 +16,13 @@ class ResultItem(object):
     """
     Defines a general result item
     """
-    def __init__(self, json):
+    def __init__(self, json, country=None):
         """
         Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
+        :param json: String. Raw JSON data to fetch information from.
+        The country is used for further requests from this item.
         """
+        self.country = country
         self.artist_name = json['artistName']
         self.type = None
 
