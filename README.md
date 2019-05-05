@@ -9,7 +9,7 @@ You can install it from *pip*:
 
 Or you can simply clone this project anywhere in your computer:
 
-    git clone https://github.com/spaceisstrange/itunespy.git
+    git clone https://github.com/sleepyfran/itunespy.git
 
 And then enter the cloned repo and execute:
 
@@ -127,10 +127,10 @@ For lookups, the same parameters apply except for *term*, which changes to a cou
 
 Every search and lookup will **always** return a list of *result_item* instances, except if it's an artist, album, movie artist or an ebook author, which inheritates from *result_item* but has extra methods, like *get_albums* in *music_artist*. Each object has their own variables, following the iTunes API names adapted to Python syntax.
 
-To take a look at all of this simply go to the [item_result](https://github.com/spaceisstrange/itunespy/blob/master/itunespy/result_item.py) class.
+To take a look at all of this simply go to the [item_result](https://github.com/sleepyfran/itunespy/blob/master/itunespy/result_item.py) class.
 
 ## Future features
-Take a look at the issues section to see what's going on with the features I want to add. [Issues](https://github.com/spaceisstrange/itunespy/issues).
+Take a look at the issues section to see what's going on with the features I want to add. [Issues](https://github.com/sleepyfran/itunespy/issues).
 
 **Note:** all these features will be first implemented in the *future* branch and then merged with master and pushed to PyPi.
 
