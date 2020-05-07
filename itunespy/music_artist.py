@@ -31,4 +31,8 @@ class MusicArtist(result_item.ResultItem):
         Retrieves all the albums by the artist
         :return: List. Albums published by the artist
         """
-        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['album'])[1:]
+        return itunespy.lookup(
+            id=self.artist_id,
+            entity=itunespy.entities['album'],
+            country=self.get_country()
+        )[1:]

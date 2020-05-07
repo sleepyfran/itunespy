@@ -12,6 +12,7 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import pycountry
 import requests
 from itunespy import music_artist
 from itunespy import music_album
@@ -55,7 +56,7 @@ def search(term, country='US', media='all', entity=None, attribute=None, limit=5
     if result_count == 0:
         raise LookupError(search_error + str(term))
 
-    return _get_result_list(json)
+    return _get_result_list(json, country)
 
 # --------
 # Lookups
@@ -91,7 +92,7 @@ def lookup(id=None, artist_amg_id=None, upc=None, country='US', media='all', ent
     if result_count == 0:
         raise LookupError(lookup_error)
 
-    return _get_result_list(json)
+    return _get_result_list(json, country)
 
 # --------
 # Specific searches and lookups
@@ -211,7 +212,7 @@ lookup_no_ids = 'No id, amg id or upc arguments provided'
 # --------
 # Private
 # --------
-def _get_result_list(json):
+def _get_result_list(json, country):
     """
     Analyzes the provided JSON data and returns an array of result_item(s) based on its content
     :param json: Raw JSON data to analyze
@@ -220,6 +221,8 @@ def _get_result_list(json):
     result_list = []
 
     for item in json:
+        if 'country' not in item:
+            item['country'] = pycountry.countries.get(alpha_2=country).alpha_3
         if 'wrapperType' in item:
             # Music
             if item['wrapperType'] == 'artist' and item['artistType'] == 'Artist':

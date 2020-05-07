@@ -31,4 +31,8 @@ class MovieArtist(result_item.ResultItem):
         Retrieves all the movies published by the artist
         :return: List. Movies published by the artist
         """
-        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['movie'])[1:]
+        return itunespy.lookup(
+            id=self.artist_id,
+            entity=itunespy.entities['movie'],
+            country=self.get_country()
+        )[1:]

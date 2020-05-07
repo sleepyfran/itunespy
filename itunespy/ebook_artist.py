@@ -31,4 +31,8 @@ class EbookArtist(result_item.ResultItem):
         Retrieves all the books published by the artist
         :return: List. Books published by the artist
         """
-        return itunespy.lookup(id=self.artist_id, entity=itunespy.entities['ebook'])[1:]
+        return itunespy.lookup(
+            id=self.artist_id,
+            entity=itunespy.entities['ebook'],
+            country=self.get_country()
+        )[1:]
