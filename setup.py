@@ -8,7 +8,7 @@ setup(
     author_email='fgonzaleva@gmail.com',
     url='http://github.com/spaceisstrange/itunespy',
     packages=['itunespy'],
-    install_requires=['requests>=2.8'],
+    install_requires=['requests>=2.8', 'pycountry>=19.8'],
     license='MIT',
     classifiers=[
         'Development Status :: 4 - Beta',

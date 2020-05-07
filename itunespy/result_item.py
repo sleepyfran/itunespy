@@ -12,17 +12,18 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 
+import pycountry
+
 class ResultItem(object):
     """
     Defines a general result item
     """
-    def __init__(self, json, country=None):
+    def __init__(self, json):
         """
         Initializes the ResultItem class from the JSON provided
         :param json: String. Raw JSON data to fetch information from.
         The country is used for further requests from this item.
         """
-        self.country = country
         self.artist_name = json['artistName']
         self.type = None
 
@@ -238,6 +239,16 @@ class ResultItem(object):
 
         if 'minimumOsVersion' in json:
             self.minimum_os_version = json['minimumOsVersion']
+
+    def get_country(self, format='alpha_2'):
+        """
+        Returns the item's country in the specified format.
+
+        :param format: The format specifier. Must be supported by pycountry.
+                       Valid formats include 'alpha_2', 'alpha_3' and 'name'.
+        :return: String. The item's country in the specified format.
+        """
+        return getattr(pycountry.countries.get(alpha_3=self.country), format)
 
     def __repr__(self):
         """
