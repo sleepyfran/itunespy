@@ -15,7 +15,8 @@ from typing import Any, Dict, List, Union
 
 import pycountry
 import requests
-from urllib.parse import quote_plus, urlencode
+from urllib.parse import urlencode
+from itunespy import artist
 from itunespy import music_artist
 from itunespy import music_album
 from itunespy import movie_artist
@@ -123,41 +124,44 @@ def search_album(term: str, country: str = 'US', attribute: str = None, limit: i
 def search_track(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[track.Track]:
     return search(term, country, 'music', entities['song'], attribute, limit)  # type: ignore
 
-def lookup_artist(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[music_artist.MusicArtist]:
-    return lookup(id, artist_amg_id, upc, country, 'music', entities['musicArtist'], attribute, limit)  # type: ignore
+def lookup_artist(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['musicArtist'], attribute, limit)
 
-def lookup_album(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[music_album.MusicAlbum]:
-    return lookup(id, artist_amg_id, upc, country, 'music', entities['album'], attribute, limit)  # type: ignore
+def lookup_album(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['album'], attribute, limit)
 
-def lookup_track(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[track.Track]:
-    return lookup(id, artist_amg_id, upc, country, 'music', entities['song'], attribute, limit)  # type: ignore
+def lookup_track(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, artist_amg_id, upc, country, 'music', entities['song'], attribute, limit)
 
 # Movies
-# FIXME: This returns MusicArtist for term "Michael"
-def search_director(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[movie_artist.MovieArtist]:
+def search_director(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[artist.Artist]:
+    # Unfortunately 'movieArtist' is not a valid entity so this method may return other artist types as well.
+    # Example: Search term 'Michael'
     return search(term, country, 'movie', entities['movieArtist'], attribute, limit)  # type: ignore
 
 def search_movie(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[track.Track]:
     return search(term, country, 'movie', entities['movie'], attribute, limit)  # type: ignore
 
-def lookup_directory(id: Union[str, int], country: str = 'US', attribute: str = None, limit: int = 50) -> List[movie_artist.MovieArtist]:
-    return lookup(id, None, None, country, 'movie', entities['movieArtist'], attribute, limit)  # type: ignore
+def lookup_directory(id: Union[str, int], country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, None, None, country, 'movie', entities['movieArtist'], attribute, limit)
 
-def lookup_movie(id: Union[str, int], country: str = 'US', attribute: str = None, limit: int = 50) -> List[track.Track]:
-    return lookup(id, None, None, country, 'movie', entities['movie'], attribute, limit)  # type: ignore
+def lookup_movie(id: Union[str, int], country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, None, None, country, 'movie', entities['movie'], attribute, limit)
 
 # Books
 def search_book(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
     return search(term, country, 'ebook', entities['ebook'], attribute, limit)
 
-def search_book_author(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[Union[ebook_artist.EbookArtist, music_artist.MusicArtist]]:
+def search_book_author(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[artist.Artist]:
+    # Unfortunately 'ebookAuthor' is not a valid entity so this method may return other artist types as well.
+    # Example: Search term 'test'
     return search(term, country, 'ebook', entities['ebookAuthor'], attribute, limit)  # type: ignore
 
 def lookup_book(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
     return lookup(id, artist_amg_id, upc, country, 'ebook', entities['ebook'], attribute, limit)
 
-def lookup_book_author(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[Union[ebook_artist.EbookArtist, music_artist.MusicArtist]]:
-    return lookup(id, artist_amg_id, upc, country, 'ebook', entities['ebookAuthor'], attribute, limit)  # type: ignore
+def lookup_book_author(id: Union[str, int] = None, artist_amg_id: Union[str, int] = None, upc: Union[str, int] = None, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:
+    return lookup(id, artist_amg_id, upc, country, 'ebook', entities['ebookAuthor'], attribute, limit)
 
 # TV Shows
 def search_tv_episodes(term: str, country: str = 'US', attribute: str = None, limit: int = 50) -> List[result_item.ResultItem]:

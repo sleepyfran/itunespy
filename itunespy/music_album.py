@@ -26,7 +26,7 @@ class MusicAlbum(result_item.ResultItem):
         Initializes the ResultItem class from the JSON provided
         :param json: String. Raw JSON data to fetch information from
         """
-        result_item.ResultItem.__init__(self, json)
+        super().__init__(json)
         self._track_list: List[track.Track] = []
         self._album_time: Optional[float] = None
 
@@ -36,10 +36,10 @@ class MusicAlbum(result_item.ResultItem):
         :return: List. Tracks of the current album
         """
         if not self._track_list:
-            tracks = itunespy.lookup_track(
-                id=self.collection_id,
-                country=self.get_country()
-            )[1:]
+            tracks = [item for item in
+                      itunespy.lookup_track(id=self.collection_id,
+                                            country=self.get_country())
+                      if isinstance(item, track.Track)]
             self._track_list.extend(tracks)
         return self._track_list
 

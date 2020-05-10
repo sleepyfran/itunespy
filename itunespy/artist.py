@@ -11,21 +11,9 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
-from typing import Any, Dict, List
+from itunespy import result_item
 
-import itunespy
-from itunespy import artist, result_item
-
-class EbookArtist(artist.Artist):
+class Artist(result_item.ResultItem):
     """
-    Defines an eBook Artist
+    Defines an Artist
     """
-    def get_books(self) -> List[result_item.ResultItem]:
-        """
-        Retrieves all the books published by the artist
-        :return: List. Books published by the artist
-        """
-        return itunespy.lookup_book(
-            id=self.artist_id,
-            country=self.get_country()
-        )[1:]

@@ -14,25 +14,18 @@
 from typing import Any, Dict, List
 
 import itunespy
-from itunespy import music_album, result_item
+from itunespy import artist, music_album, result_item
 
-class MusicArtist(result_item.ResultItem):
+class MusicArtist(artist.Artist):
     """
     Defines an Music Artist
     """
-    def __init__(self, json: Dict[str, Any]) -> None:
-        """
-        Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
-        """
-        result_item.ResultItem.__init__(self, json)
-
     def get_albums(self) -> List[music_album.MusicAlbum]:
         """
         Retrieves all the albums by the artist
         :return: List. Albums published by the artist
         """
-        return itunespy.lookup_album(
-            id=self.artist_id,
-            country=self.get_country()
-        )[1:]
+        return [item for item in
+                itunespy.lookup_album(id=self.artist_id,
+                                      country=self.get_country())
+                if isinstance(item, music_album.MusicAlbum)]

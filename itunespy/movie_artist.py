@@ -14,26 +14,19 @@
 from typing import Any, Dict, List
 
 import itunespy
-from itunespy import result_item, track
+from itunespy import artist, result_item, track
 
 
-class MovieArtist(result_item.ResultItem):
+class MovieArtist(artist.Artist):
     """
     Defines an Movie Artist
     """
-    def __init__(self, json: Dict[str, Any]) -> None:
-        """
-        Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
-        """
-        result_item.ResultItem.__init__(self, json)
-
     def get_movies(self) -> List[track.Track]:
         """
         Retrieves all the movies published by the artist
         :return: List. Movies published by the artist
         """
-        return itunespy.lookup_movie(
-            id=self.artist_id,
-            country=self.get_country()
-        )[1:]
+        return [item for item in
+                itunespy.lookup_movie(id=self.artist_id,
+                                      country=self.get_country())
+                if isinstance(item, track.Track)]

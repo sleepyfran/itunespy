@@ -103,30 +103,32 @@ class ResultItem(object):
         """
         self.json = copy.deepcopy(json)
 
-        self.type: Optional[str] = None
-        if 'wrapperType' in json:
-            self.type = json['wrapperType']
+    @property
+    def type(self) -> str:
+        return self.json.get('wrapperType') or self.kind  # type: ignore
 
-            if 'collectionType' in json:
-                self.collection_type: str = json['collectionType']
-            elif 'artistType' in json:
-                self.artist_type: str = json['artistType']
-            elif 'kind' in json:
-                self.track_type: str = json['kind']
-        elif 'kind' in json:
-            self.type = json['kind']
+    @property
+    def track_type(self) -> str:
+        if 'wrapperType' in self.json:
+            return self.kind  # type: ignore
+        else:
+            raise AttributeError
 
-        if 'radioStationUrl' in json:
-            self.artist_radio_url: str = json['radioStationUrl']
+    @property
+    def artist_radio_url(self) -> str:
+        return self.json["radioStationUrl"]  # type: ignore
 
-        if 'trackTimeMillis' in json:
-            self.track_time: int = json['trackTimeMillis']
+    @property
+    def track_time(self) -> int:
+        return self.json["trackTimeMillis"]  # type: ignore
 
-        if 'fileSizeBytes' in json:
-            self.file_size = json['fileSizeBytes']
+    @property
+    def file_size(self) -> int:
+        return self.json["fileSizeBytes"]  # type: ignore
 
-        if 'languageCodesISO2A' in json:
-            self.language_codes = json['languageCodesISO2A']
+    @property
+    def language_codes(self) -> List[str]:
+        return self.json["languageCodesISO2A"]  # type: ignore
 
     def __getattr__(self, item: str) -> Any:
         components = item.split('_')
