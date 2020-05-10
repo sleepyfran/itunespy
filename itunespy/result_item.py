@@ -20,6 +20,8 @@ import copy
 import pycountry
 
 
+import pycountry
+
 class ResultItem(object):
     """
     Defines a general result item
