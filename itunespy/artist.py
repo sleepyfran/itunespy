@@ -13,6 +13,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 from itunespy import result_item
 
+
 class Artist(result_item.ResultItem):
     """
     Defines an Artist

@@ -11,10 +11,10 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
-from typing import Any, Dict, List
+from typing import List
 
 import itunespy
-from itunespy import artist, result_item, track
+from itunespy import artist, track
 
 
 class MovieArtist(artist.Artist):

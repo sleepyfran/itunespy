@@ -19,13 +19,6 @@ class Track(result_item.ResultItem):
     """
     Defines a Track whether it's a music track or a movie or a show episode
     """
-    def __init__(self, json: Dict[str, Any]) -> None:
-        """
-        Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
-        """
-        result_item.ResultItem.__init__(self, json)
-
     def get_track_time_minutes(self, round_number: int = 2) -> float:
         """
         Retrieves the track's length and converts it to minutes

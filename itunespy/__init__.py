@@ -11,6 +11,13 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+
+'''
+    This is a simple module made in my free time. It's not perfect, but it works well.
+    I'm accepting any pull request to improve it, just follow the code style.
+    For examples and documentation, take a look at the README.md
+'''
+
 from typing import Any, Dict, List, Union
 
 import pycountry
@@ -24,11 +31,6 @@ from itunespy import ebook_artist
 from itunespy import track
 from itunespy import result_item
 
-'''
-    This is a simple module made in my free time. It's not perfect, but it works well.
-    I'm accepting any pull request to improve it, just follow the code style.
-    For examples and documentation, take a look at the README.md
-'''
 
 # --------
 # Searches
@@ -103,7 +105,7 @@ def lookup(
     try:
         json = r.json()['results']
         result_count = r.json()['resultCount']
-    except:
+    except KeyError:
         raise ConnectionError(general_no_connection)
 
     if result_count == 0:
