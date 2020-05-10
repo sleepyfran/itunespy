@@ -1,0 +1,20 @@
+name: CI Pipeline
+on: push
+
+jobs:
+  lint:
+    name: Test Typing Conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Install Dependencies
+        run: pip install .\[dev\]
+      - name: Run MyPy
+        uses: kolonialno/mypy-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          paths: itunespy
