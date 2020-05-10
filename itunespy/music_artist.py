@@ -11,28 +11,28 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+from typing import Any, Dict, List
 
 import itunespy
-from itunespy import result_item
+from itunespy import music_album, result_item
 
 class MusicArtist(result_item.ResultItem):
     """
     Defines an Music Artist
     """
-    def __init__(self, json):
+    def __init__(self, json: Dict[str, Any]) -> None:
         """
         Initializes the ResultItem class from the JSON provided
         :param json: String. Raw JSON data to fetch information from
         """
         result_item.ResultItem.__init__(self, json)
 
-    def get_albums(self):
+    def get_albums(self) -> List[music_album.MusicAlbum]:
         """
         Retrieves all the albums by the artist
         :return: List. Albums published by the artist
         """
-        return itunespy.lookup(
+        return itunespy.lookup_album(
             id=self.artist_id,
-            entity=itunespy.entities['album'],
             country=self.get_country()
         )[1:]

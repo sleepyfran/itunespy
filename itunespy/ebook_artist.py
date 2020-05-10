@@ -11,6 +11,7 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+from typing import Any, Dict, List
 
 import itunespy
 from itunespy import result_item
@@ -19,20 +20,19 @@ class EbookArtist(result_item.ResultItem):
     """
     Defines an eBook Artist
     """
-    def __init__(self, json):
+    def __init__(self, json: Dict[str, Any]) -> None:
         """
         Initializes the ResultItem class from the JSON provided
         :param json: String. Raw JSON data to fetch information from
         """
         result_item.ResultItem.__init__(self, json)
 
-    def get_books(self):
+    def get_books(self) -> List[result_item.ResultItem]:
         """
         Retrieves all the books published by the artist
         :return: List. Books published by the artist
         """
-        return itunespy.lookup(
+        return itunespy.lookup_book(
             id=self.artist_id,
-            entity=itunespy.entities['ebook'],
             country=self.get_country()
         )[1:]

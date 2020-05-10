@@ -53,12 +53,19 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
 # PyBuilder
 target/
 
 # PyCharm stuff
 *.iml
 .idea/
+venv/
 
 # Test file
 test.py
+
