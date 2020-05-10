@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Union
 
 import pycountry
 import requests
+from urllib.parse import quote_plus, urlencode
 from itunespy import music_artist
 from itunespy import music_album
 from itunespy import movie_artist
@@ -183,9 +184,8 @@ def search_mac_software(term: str, country: str = 'US', attribute: str = None, l
 # --------
 # Parameters
 # --------
-base_search_url = 'https://itunes.apple.com/search?term='
-base_lookup_url = 'https://itunes.apple.com/lookup?'
-ampersand = '&'
+base_search_url = 'https://itunes.apple.com/search'
+base_lookup_url = 'https://itunes.apple.com/lookup'
 entities = {
     'movieArtist': 'movieArtist',
     'movie': 'movie',
@@ -211,17 +211,6 @@ entities = {
     'all': 'all',
     'allArtist': 'allArtist',
     'allTrack': 'allTrack'
-}
-parameters = {
-    0: 'term=',
-    1: 'country=',
-    2: 'media=',
-    3: 'entity=',
-    4: 'attribute=',
-    5: 'limit=',
-    6: 'id=',
-    7: 'amgArtistId=',
-    8: 'upc='
 }
 general_no_connection = 'Cannot fetch JSON data'
 search_error = 'No results found with the keyword '
@@ -315,19 +304,18 @@ def _url_search_builder(
     :param limit: Integer. The number of search results you want the iTunes Store to return.
     :return: The built URL as a string
     """
-    built_url = base_search_url + _parse_query(term)
-    built_url += ampersand + parameters[1] + country
-    built_url += ampersand + parameters[2] + media
-
+    query = {
+        "term": term,
+        "country": country,
+        "media": media,
+        "limit": limit
+    }
     if entity is not None:
-        built_url += ampersand + parameters[3] + entity
-
+        query["entity"] = entity
     if attribute is not None:
-        built_url += ampersand + parameters[4] + attribute
+        query["attribute"] = attribute
 
-    built_url += ampersand + parameters[5] + str(limit)
-
-    return built_url
+    return base_search_url + "?" + urlencode(query)
 
 
 def _url_lookup_builder(id: Union[str, int] = None,
@@ -352,44 +340,23 @@ def _url_lookup_builder(id: Union[str, int] = None,
     :param limit: Integer. The number of search results you want the iTunes Store to return.
     :return: The built URL as a string
     """
-    built_url = base_lookup_url
+    query = {
+        "country": country,
+        "media": media,
+        "limit": limit
+    }
     has_one_argument = False
 
     if id is not None:
-        built_url += parameters[6] + str(id)
-        has_one_argument = True
-
+        query["id"] = id
     if artist_amg_id is not None:
-        if has_one_argument:
-            built_url += ampersand + parameters[7] + str(artist_amg_id)
-        else:
-            built_url += parameters[7] + str(artist_amg_id)
-            has_one_argument = True
-
+        query["amgArtistId"] = artist_amg_id
     if upc is not None:
-        if has_one_argument:
-            built_url += ampersand + parameters[8] + str(upc)
-        else:
-            built_url += parameters[8] + str(upc)
-
-    built_url += ampersand + parameters[1] + country
-    built_url += ampersand + parameters[2] + media
+        query["upc"] = upc
 
     if entity is not None:
-        built_url += ampersand + parameters[3] + entity
-
+        query["entity"] = entity
     if attribute is not None:
-        built_url += ampersand + parameters[4] + attribute
+        query["attribute"] = attribute
 
-    built_url += ampersand + parameters[5] + str(limit)
-
-    return built_url
-
-
-def _parse_query(query: str) -> str:
-    """
-    Replaces every space in the provided query with a +
-    :param query: term to delete spaces
-    :return: query without spaces as a string
-    """
-    return str(query).replace(' ', '+')
+    return base_lookup_url + "?" + urlencode(query)
