@@ -12,7 +12,9 @@
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
 import json
+import sys
 from typing import Any, Dict, List, TYPE_CHECKING
+from datetime import datetime
 
 import copy
 import pycountry
@@ -131,13 +133,24 @@ class ResultItem(object):
     def language_codes(self) -> List[str]:
         return self.json["languageCodesISO2A"]  # type: ignore
 
-    def __getattr__(self, item: str) -> Any:
-        components = item.split('_')
-        key = components[0] + ''.join(x.title() for x in components[1:])
-        try:
-            return self.json[key]
-        except KeyError:
-            raise AttributeError
+    def get_artwork_url(self, size: int = 1500) -> str:
+        """
+        Returns the artwork URL for this item. The URL refers to an artwork
+        image of the specified size (or smaller if the size is larger than the
+        maximum available image size).
+        :param size: The maximum size the returned image should have. Usually
+                     artwork images are available up to 600x600 pixels.
+        """
+        return self.artwork_url_100.replace('100x100', f'{size}x{size}')
+
+    if sys.version_info >= (3, 7):
+        @property
+        def parsed_release_date(self) -> datetime:
+            """
+            Returns a datetime representation of the item's release_date. This
+            method is only available when using Python 3.7 or later.
+            """
+            return datetime.fromisoformat(self.release_date.replace('Z', '+00:00'))
 
     def get_country(self, format: str = 'alpha_2') -> str:
         """
@@ -148,6 +161,14 @@ class ResultItem(object):
         :return: String. The item's country in the specified format.
         """
         return getattr(pycountry.countries.get(alpha_3=self.country), format)  # type: ignore
+
+    def __getattr__(self, item: str) -> Any:
+        components = item.split('_')
+        key = components[0] + ''.join(x.title() for x in components[1:])
+        try:
+            return self.json[key]
+        except KeyError:
+            raise AttributeError from None
 
     def __repr__(self) -> str:
         """
