@@ -11,7 +11,8 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+import json
+from typing import Any, Dict, List, TYPE_CHECKING
 
 import copy
 import pycountry
@@ -153,10 +154,4 @@ class ResultItem(object):
         Retrieves all keys in the class as a String
         :return: String. All the keys available in the class
         """
-        string = ''
-
-        for key, value in self.__dict__.items():
-            if not key.startswith('__'):
-                string += '\n' + key + ':' + str(value)
-
-        return string
+        return json.dumps(self.json, indent=2)
