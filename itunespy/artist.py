@@ -11,22 +11,10 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
-from typing import List
-
-import itunespy
-from itunespy import artist, music_album
+from itunespy import result_item
 
 
-class MusicArtist(artist.Artist):
+class Artist(result_item.ResultItem):
     """
-    Defines an Music Artist
+    Defines an Artist
     """
-    def get_albums(self) -> List[music_album.MusicAlbum]:
-        """
-        Retrieves all the albums by the artist
-        :return: List. Albums published by the artist
-        """
-        return [item for item in
-                itunespy.lookup_album(id=self.artist_id,
-                                      country=self.get_country())
-                if isinstance(item, music_album.MusicAlbum)]

@@ -11,33 +11,26 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+from typing import Any, Dict
 
-import itunespy
 from itunespy import result_item
 
 class Track(result_item.ResultItem):
     """
     Defines a Track whether it's a music track or a movie or a show episode
     """
-    def __init__(self, json):
-        """
-        Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
-        """
-        result_item.ResultItem.__init__(self, json)
-
-    def get_track_time_minutes(self, round_number=2):
+    def get_track_time_minutes(self, round_number: int = 2) -> float:
         """
         Retrieves the track's length and converts it to minutes
         :param round_number: Int. Number of decimals to round the minutes
-        :return: Int. Track length in minutes
+        :return: Float. Track length in minutes
         """
         return round(self.track_time / 60000, round_number)
 
-    def get_track_time_hours(self, round_number=2):
+    def get_track_time_hours(self, round_number: int = 2) -> float:
         """
         Retrieves the track's length and converts it to hours
         :param round_number: Int. Number of decimals to round the hours
-        :return: Int. Track length in hours
+        :return: Float. Track length in hours
         """
         return round(self.track_time / 6000000, round_number)

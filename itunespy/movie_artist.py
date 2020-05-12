@@ -11,28 +11,22 @@
 # You should have received a
 #  copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>
+from typing import List
 
 import itunespy
-from itunespy import result_item
+from itunespy import artist, track
 
-class MovieArtist(result_item.ResultItem):
+
+class MovieArtist(artist.Artist):
     """
     Defines an Movie Artist
     """
-    def __init__(self, json):
-        """
-        Initializes the ResultItem class from the JSON provided
-        :param json: String. Raw JSON data to fetch information from
-        """
-        result_item.ResultItem.__init__(self, json)
-
-    def get_movies(self):
+    def get_movies(self) -> List[track.Track]:
         """
         Retrieves all the movies published by the artist
         :return: List. Movies published by the artist
         """
-        return itunespy.lookup(
-            id=self.artist_id,
-            entity=itunespy.entities['movie'],
-            country=self.get_country()
-        )[1:]
+        return [item for item in
+                itunespy.lookup_movie(id=self.artist_id,
+                                      country=self.get_country())
+                if isinstance(item, track.Track)]
