@@ -1,6 +1,8 @@
 # itunespy [![PyPI version](https://badge.fury.io/py/itunespy.svg)](http://badge.fury.io/py/itunespy)
 
-itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.X.
+itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.5 and beyond.
+
+**Important**: Since version 1.6 _itunespy_ no longer supports versions below Python 3.5. You can still use any previous versions but those won't get any further updates or features.
 
 ## Installing
 You can install it from *pip*:
@@ -16,7 +18,7 @@ And then enter the cloned repo and execute:
     python setup.py install
 ## Dependencies
 
-itunespy requires [Requests](https://github.com/kennethreitz/requests) installed.
+itunespy requires [Requests](https://github.com/kennethreitz/requests) and [pycountry](https://github.com/flyingcircusio/pycountry) installed.
 
 ## Examples and information
 Search an artist and show all its album's names:
@@ -129,12 +131,5 @@ Every search and lookup will **always** return a list of *result_item* instances
 
 To take a look at all of this simply go to the [item_result](https://github.com/sleepyfran/itunespy/blob/master/itunespy/result_item.py) class.
 
-## Future features
-Take a look at the issues section to see what's going on with the features I want to add. [Issues](https://github.com/sleepyfran/itunespy/issues).
-
-**Note:** all these features will be first implemented in the *future* branch and then merged with master and pushed to PyPi.
-
 ## Contributing
 I'm accepting any pull request to improve or fix anything in the library, just fork the project and hack it!
-
-**Note:** if you make any change to the code, please make them in the *future* branch.
