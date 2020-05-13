@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='itunespy',
-    version='1.5.5',
+    version='1.6.0',
     description='A simple library to fetch data from the iTunes Store API made for Python 3.X',
     author='Fran González (@spaceisstrange)',
     author_email='fgonzaleva@gmail.com',
@@ -14,7 +14,7 @@ setup(
     },
     license='MIT',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
