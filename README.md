@@ -1,8 +1,7 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
 # itunespy [![PyPI version](https://badge.fury.io/py/itunespy.svg)](http://badge.fury.io/py/itunespy)
 
 itunespy is a simple library to fetch data from the iTunes Store API made for Python 3.5 and beyond.
-
-**Important**: Since version 1.6 _itunespy_ no longer supports versions below Python 3.5. You can still use any previous versions but those won't get any further updates or features.
 
 ## Installing
 You can install it from *pip*:
