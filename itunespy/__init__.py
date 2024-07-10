@@ -22,6 +22,7 @@ from typing import Any, Dict, List, Union
 
 import pycountry
 import requests
+from json.decoder import JSONDecodeError
 from urllib.parse import urlencode
 from itunespy import artist
 from itunespy import music_artist
@@ -105,7 +106,7 @@ def lookup(
     try:
         json = r.json()['results']
         result_count = r.json()['resultCount']
-    except KeyError:
+    except (JSONDecodeError, KeyError):
         raise ConnectionError(general_no_connection)
 
     if result_count == 0:
