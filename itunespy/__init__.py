@@ -62,6 +62,8 @@ def search(
     try:
         json = r.json()['results']
         result_count = r.json()['resultCount']
+    except JSONDecodeError:
+        raise RuntimeError(general_no_connection)
     except:
         raise ConnectionError(general_no_connection)
 
@@ -106,7 +108,9 @@ def lookup(
     try:
         json = r.json()['results']
         result_count = r.json()['resultCount']
-    except (JSONDecodeError, KeyError):
+    except JSONDecodeError:
+        raise RuntimeError(general_no_connection)
+    except KeyError:
         raise ConnectionError(general_no_connection)
 
     if result_count == 0:
