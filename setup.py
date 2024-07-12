@@ -10,7 +10,7 @@ setup(
     packages=['itunespy'],
     install_requires=['requests>=2.8', 'pycountry>=19.8'],
     extras_require={
-        'dev': ['mypy']
+        'dev': ['mypy', 'types-requests']
     },
     license='MIT',
     classifiers=[
