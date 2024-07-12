@@ -1,9 +1,15 @@
 from setuptools import setup
+from pathlib import Path
+
+root_dir = Path(__file__).parent
+long_description = (root_dir/"README.md").read_text()
 
 setup(
     name='itunespy',
     version='1.6.1',
     description='A simple library to fetch data from the iTunes Store API made for Python 3.X',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Fran González (@sleepyfran)',
     author_email='fgzv@outlook.com',
     url='http://github.com/sleepyfran/itunespy',
